@@ -29,15 +29,60 @@ class Usuario extends Conexion
   public function generarCodigo($datos = [])
   {
     try {
-      $consulta = $this->conexion->prepare("CALL CambiarClaveAcceso(?,?)");
+      $consulta = $this->conexion->prepare("CALL generarClave(?,?)");
       $consulta->execute(
         array(
           $datos["email"],
-          $datos["claveacceso"]
+          $datos["clavegenerada"]
         )
       );
 
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function buscarEmail($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_buscar_email(?)");
+      $consulta->execute(
+        array(
+          $datos['email']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function ponerNullCodigo($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL ResetearClaveGenerada(?);");
+      $consulta->execute(
+        array(
+          $datos['email']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+  public function cambiarClave($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL CambiarClaveAcceso(?,?)");
+      $consulta->execute(
+        array(
+          $datos['email'],
+          $datos['claveacceso']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die($e->getMessage());
     }

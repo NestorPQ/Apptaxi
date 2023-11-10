@@ -106,7 +106,7 @@
           alert("Codigo Generado");
           // alert(respueta);
           console.error(data);
-          // window.location.href = `./test/recoverPassword/codigo-reset.php?email=${correo}`;
+          window.location.href = `codigo-reset.php?email=${correo}`;
         }
       ).
       catch(e => {

@@ -4,13 +4,13 @@ session_start();  //  Crea o hereda la sesión
 date_default_timezone_set("America/Lima");
 
 require_once '../models/Usuario.php';
-require_once './test/recoverPassword/email.php';
+require_once '../test/password/email.php';
+require_once '../vendor/autoload.php';
 
 if (isset($_POST['operacion'])) {
   $usuario = new Usuario;
 
   switch ($_POST['operacion']) {
-
     case 'login':
       $datosEnviar = ["email" => $_POST["email"]];
 
@@ -49,19 +49,58 @@ if (isset($_POST['operacion'])) {
 
       $numero = mt_rand(100000, 999999);
       $digitos = strval($numero);
-      $correo = $_POST["email"];
+      // $correo = $_POST["email"];
 
       $datosEnviar = [
         "email"         => $_POST["email"],
-        "claveacceso"   => $digitos
+        "clavegenerada"   => $digitos
       ];
 
       // enviamos el codigo al correo
-      enviarEmail($correo, $digitos);
+      // enviarEmail($correo, $digitos);
 
 
       echo json_encode($usuario->generarCodigo($datosEnviar));
 
+      break;
+
+    case "confirmarcodigo":
+      $datosEnviar = [
+        "email" => $_POST["email"],
+      ];
+
+
+      echo json_encode($usuario->buscarEmail($datosEnviar));
+
+
+      break;
+
+      // case 'resetClaveGenerada':
+      //   $datosEnviar = [
+      //     "email" => $_POST["email"]
+      //   ];
+
+      //   echo json_encode($usuario->ponerNullCodigo($datosEnviar));
+      //   break;
+
+    case "cambiarClave":
+
+      $clave = $_POST["claveacceso"];
+
+      $claveEncriptada = password_hash($clave, PASSWORD_BCRYPT);
+
+      $datosEnviar = [
+        "email"         => $_POST["email"],
+        "claveacceso"   => $claveEncriptada
+      ];
+
+      echo json_encode($usuario->cambiarClave($datosEnviar));
+
+      $resetClaveGenerada = [
+        "email" => $_POST["email"]
+      ];
+
+      $usuario->ponerNullCodigo($resetClaveGenerada);
       break;
 
     default:
