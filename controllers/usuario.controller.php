@@ -3,9 +3,11 @@ session_start();  //  Crea o hereda la sesión
 
 date_default_timezone_set("America/Lima");
 
+
+
+require_once '../vendor/autoload.php';
 require_once '../models/Usuario.php';
 require_once '../test/password/email.php';
-require_once '../vendor/autoload.php';
 
 if (isset($_POST['operacion'])) {
   $usuario = new Usuario;
@@ -49,7 +51,7 @@ if (isset($_POST['operacion'])) {
 
       $numero = mt_rand(100000, 999999);
       $digitos = strval($numero);
-      // $correo = $_POST["email"];
+      $correo = $_POST["email"];
 
       $datosEnviar = [
         "email"         => $_POST["email"],
@@ -57,7 +59,7 @@ if (isset($_POST['operacion'])) {
       ];
 
       // enviamos el codigo al correo
-      // enviarEmail($correo, $digitos);
+      enviarEmail($correo, $digitos);
 
 
       echo json_encode($usuario->generarCodigo($datosEnviar));
@@ -75,13 +77,6 @@ if (isset($_POST['operacion'])) {
 
       break;
 
-      // case 'resetClaveGenerada':
-      //   $datosEnviar = [
-      //     "email" => $_POST["email"]
-      //   ];
-
-      //   echo json_encode($usuario->ponerNullCodigo($datosEnviar));
-      //   break;
 
     case "cambiarClave":
 

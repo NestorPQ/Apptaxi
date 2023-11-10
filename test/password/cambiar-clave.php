@@ -165,9 +165,9 @@
     $("#form-reset-clave").addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const emailInput = $("#email").value;
-      const passwordInput = $("#password").value;
-      const passwordConfirmationInput = $("#passwordConfirmation").value;
+      let emailInput = $("#email").value;
+      let passwordInput = $("#password").value;
+      let passwordConfirmationInput = $("#passwordConfirmation").value;
 
       if (passwordInput === passwordConfirmationInput) {
         alert("Las contraseñas son iguales 👍");
@@ -178,18 +178,24 @@
         parametros.append("claveacceso", passwordInput);
 
         fetch(`../../controllers/usuario.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(data => {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(data => {
+            // console.log(data);
+            if (data == false) {
+              alert("Contraseña actualizada correctamente!");
+              emailInput = $("#email").value = "";
+              passwordInput = $("#password").value = "";
+              passwordConfirmationInput = $("#passwordConfirmation").value = "";
+            }
+          })
+          .catch(e => {
+            console.error(e)
+          });
 
-        })
-        .catch(e => {
-          console.error(e)
-        });
-
-      }else{
+      } else {
         alert("Las contraseñas son diferentes 🚨");
       }
 

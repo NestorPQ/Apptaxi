@@ -6,14 +6,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//Load Composer's autoloader
-// require_once __DIR__ . '/../vendor/autoload.php';
+// require '../../vendor/autoload.php';
 
-// require_once('./vendor/autoload.php');
+function enviarEmail($correo = "", $codigo = ""){
 
-
-function enviarEmail($correo = "", $codigo = "")
-{
   //Create an instance; passing `true` enables exceptions
   $mail = new PHPMailer(true);
   $estado = ["enviado" => false];
