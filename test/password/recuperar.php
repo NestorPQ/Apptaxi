@@ -32,7 +32,7 @@
       background-color: #fff;
       background-clip: border-box;
       border: 1px solid #e5e9f2;
-      border-radius: .2rem;
+      border-radius: .4rem;
     }
   </style>
 
@@ -57,11 +57,11 @@
               <div class="m-sm-4">
                 <form id="form-recovery">
                   <div class="form-group">
-                    <h5 class="mb-2">Email</h5>
-                    <input id="corre-ingresado" class="form-control form-control-lg" type="email" placeholder="Introduce tu correo">
+                    <h5 class="mb-2 text-muted">Email</h5>
+                    <input id="corre-ingresado" class="form-control form-control-lg rounded-1" type="email" placeholder="Introduce tu correo">
                   </div>
                   <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-lg btn-primary" id="enviar-codigo">Enviar código</button>
+                    <button type="submit" class="btn btn-lg btn-primary rounded-1" id="enviar-codigo">Enviar código</button>
                   </div>
                 </form>
               </div>

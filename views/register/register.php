@@ -67,7 +67,8 @@
 
     <div class="row py-5 mt-4 align-items-center">
       <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
-        <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
+        <!-- <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" class="img-fluid mb-3 d-none d-md-block"> -->
+        <img src="https://img.freepik.com/vector-gratis/ilustracion-concepto-alquiler-coches_114360-9916.jpg?w=996&t=st=1699846051~exp=1699846651~hmac=86a9183298ef07f9019c0d25a716e548c4abddd2438025f28f257dd1f5e29c6b" alt="" class="img-fluid mb-3 d-none d-md-block">
         <!-- <h1>Reestable tu contraseña</h1> -->
       </div>
 
