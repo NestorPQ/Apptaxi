@@ -4,7 +4,7 @@ session_start(); // Crea o hereda la sessión
 // Perfiles de usuario = CONTROL DE ACCESO
 $permisos = [
   "ADMI" =>  ["dashboard"],
-  "CLIENTE" =>  [],
+  "CLIE" =>  [],
   "USER" =>  ["dashboard"],
 
 ];
@@ -29,29 +29,30 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
     <div class="collapse navbar-collapse" id="collapsibleNavId">
       <ul class="navbar-nav me-auto mt-2 mt-lg-0">
 
-        <!-- <li class='nav-item'>
-          <a class='nav-link style=' text-transform: capitalize'' href='../dashboard/Dashboard.php'>Arturox</a>
-        </li> -->
-
-        <!-- <li class='nav-item'>
-          <a class='nav-link style=' text-transform: capitalize'' href='../{$opciones}/listar.php'>{$opciones}</a>
-        </li> -->
-
         <?php
-        $listaOpciones = $permisos[$_SESSION["nivelacceso"]];
+        $listaOpciones = [];
 
-        //  Lista de los modulo que tiene de acceso
-        foreach ($listaOpciones as $opciones) {
+        if (isset($permisos[$_SESSION["nivelacceso"]])) {
+          $listaOpciones = $permisos[$_SESSION["nivelacceso"]];
 
-          if ($opciones != "index") {
-            # code...
-            echo "
-            <li class='nav-item'>
-              <a class='nav-link style='text-transform: capitalize'' href='../{$opciones}/index.php'>{$opciones}</a>
-            </li>
-            ";
+          //  Lista de los modulo que tiene de acceso
+          foreach ($listaOpciones as $opciones) {
+
+            if ($opciones != "index") {
+              # code...
+              echo "
+              <li class='nav-item'>
+                <a class='nav-link' style='text-transform: capitalize' href='../{$opciones}/index.php'>{$opciones}</a>
+              </li>
+              ";
+            }
           }
+        } else {
+          // Manejo de error o comportamiento predeterminado si el nivel de acceso no está definido
+          echo "<a class='text-white'>Nivel de acceso no definido.</a>";
         }
+
+
         ?>
 
         <ul class="navbar-nav">

@@ -87,4 +87,24 @@ class Usuario extends Conexion
       die($e->getMessage());
     }
   }
+
+  public function registrarUsuario($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare('call taxi.sp_registrar_usuario(?,?,?,?,?)');
+      $consulta->execute(
+        array(
+          $datos["apellido"],
+          $datos["nombre"],
+          $datos["email"],
+          $datos["telefono"],
+          $datos["claveacceso"]
+        )
+      );
+
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }

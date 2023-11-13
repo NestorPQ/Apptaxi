@@ -39,7 +39,7 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
           <button class="opacity">INICIAR SESSIÓN</button>
         </form>
         <div class="register-forget opacity">
-          <a href="">REGISTRARME</a>
+          <a href="./views/register/register.php">REGISTRARME</a>
         </div>
         <div class="register-forget opacity">
           <a href="../Apptaxi/test/password/recuperar.php">CAMBIAR CONTRASEÑA</a>

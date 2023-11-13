@@ -3,8 +3,6 @@ session_start();  //  Crea o hereda la sesión
 
 date_default_timezone_set("America/Lima");
 
-
-
 require_once '../vendor/autoload.php';
 require_once '../models/Usuario.php';
 require_once '../test/password/email.php';
@@ -96,6 +94,21 @@ if (isset($_POST['operacion'])) {
       ];
 
       $usuario->ponerNullCodigo($resetClaveGenerada);
+      break;
+    case "registrarUsuario":
+      $clave = $_POST["claveacceso"];
+
+      $claveEncriptada = password_hash($clave, PASSWORD_BCRYPT);
+
+      $datosEnviar = [
+        "nombre" => $_POST["nombre"],
+        "apellido" => $_POST["apellido"],
+        "email" => $_POST["email"],
+        "telefono" => $_POST["telefono"],
+        "claveacceso" => $claveEncriptada
+      ];
+
+      echo json_encode($usuario->registrarUsuario($datosEnviar));
       break;
 
     default:
