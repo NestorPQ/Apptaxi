@@ -186,9 +186,15 @@
             // console.log(data);
             if (data == false) {
               alert("Contraseña actualizada correctamente!");
-              emailInput = $("#email").value = "";
-              passwordInput = $("#password").value = "";
-              passwordConfirmationInput = $("#passwordConfirmation").value = "";
+              $("#email").value = "";
+              $("#password").value = "";
+              $("#passwordConfirmation").value = "";
+
+              $("#email").disabled = true;
+              $("#password").disabled = true;
+              $("#passwordConfirmation").disabled = true;
+              $("#cambiar-contrasena-btn").disabled = true;
+
             }
           })
           .catch(e => {

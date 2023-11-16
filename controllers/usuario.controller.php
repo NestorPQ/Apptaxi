@@ -6,6 +6,7 @@ date_default_timezone_set("America/Lima");
 require_once '../vendor/autoload.php';
 require_once '../models/Usuario.php';
 require_once '../test/password/email.php';
+require_once '../test/filtros.php';
 
 if (isset($_POST['operacion'])) {
   $usuario = new Usuario;
@@ -96,15 +97,20 @@ if (isset($_POST['operacion'])) {
       $usuario->ponerNullCodigo($resetClaveGenerada);
       break;
     case "registrarUsuario":
-      $clave = $_POST["claveacceso"];
 
+      $nombre = filtrar($_POST["nombre"]);
+      $apellido = filtrar($_POST["apellido"]);
+
+      $telefono = eliminarNoNumeros($_POST["telefono"]);
+
+      $clave = $_POST["claveacceso"];
       $claveEncriptada = password_hash($clave, PASSWORD_BCRYPT);
 
       $datosEnviar = [
-        "nombre" => $_POST["nombre"],
-        "apellido" => $_POST["apellido"],
+        "nombre" => $nombre,
+        "apellido" => $apellido,
         "email" => $_POST["email"],
-        "telefono" => $_POST["telefono"],
+        "telefono" => $telefono,
         "claveacceso" => $claveEncriptada
       ];
 

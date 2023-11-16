@@ -231,6 +231,8 @@ END $$
 -- **********************************************************************
 -- * 				PROCEDIMIENTO PARA ALQUILERES 						*
 -- **********************************************************************
+
+-----  EN DUDA CON ESTE PROCEDIMIENTO
 DELIMITER $$
 CREATE PROCEDURE spu_alquileres_listar()
 BEGIN
@@ -253,6 +255,7 @@ BEGIN
     WHERE ALQ.inactive_at IS NULL;
 END $$
 CALL spu_alquileres_listar();
+---------------------🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 
 DELIMITER $$
 CREATE PROCEDURE spu_alquileres_registrar(
@@ -277,6 +280,81 @@ BEGIN
 END $$
 
 -- Como calcular
+
+
+DELIMITER $$
+CREATE PROCEDURE CambiarClaveAcceso(IN correoUsuario VARCHAR(255), IN nuevaClave VARCHAR(255))
+BEGIN
+    UPDATE usuarios
+    SET claveacceso = nuevaClave
+    WHERE email = correoUsuario;
+END $$
+CALL CambiarClaveAcceso('juan.perez@example.com', 'clave');
+
+DELIMITER $$
+CREATE PROCEDURE ResetearClaveGenerada(IN correoUsuario VARCHAR(255))
+BEGIN
+    UPDATE usuarios
+    SET clavegenerada = NULL
+    WHERE email = correoUsuario;
+END $$
+CALL ResetearClaveGenerada('yorghetyauri123@gmail.com');
+
+DELIMITER $$
+CREATE PROCEDURE generarClave(IN correoUsuario VARCHAR(255), IN _clavegenerada VARCHAR(6))
+BEGIN
+    UPDATE usuarios
+    SET clavegenerada = _clavegenerada
+    WHERE email = correoUsuario;
+END $$
+
+CALL spu_usuarios_login("1208003@senati.pe");
+CALL spu_buscar_email("1208003@senati.pe");
+
+
+DELIMITER $$
+CREATE PROCEDURE sp_registrar_usuario(
+    IN pApellidos VARCHAR(50),
+    IN pNombres VARCHAR(50),
+    IN pEmail VARCHAR(50),
+    IN pTelefono CHAR(9),
+    IN pClaveAcceso VARCHAR(100)
+)
+BEGIN
+    INSERT INTO usuarios (
+        apellidos,
+        nombres,
+        email,
+        telefono,
+        claveacceso
+    )
+    VALUES (
+		pApellidos,
+        pNombres,
+        pEmail,
+        pTelefono,
+        pClaveAcceso
+    );
+    SELECT 'true' AS resultado;
+END $$
+
+
+
+--  123456
+UPDATE usuarios
+    SET claveacceso = "$2y$10$VuJusmMELIlf92ZaYRvpnut6bTft7PioE1mQWzdUEsXQ89xwrEQgC"
+    WHERE idusuario = 5;
+
+select * from usuarios;
+
+use taxi;
+
+INSERT INTO usuarios (avatar, apellidos, nombres, email, telefono, claveacceso, clavegenerada, nivelacceso)
+VALUES ('', 'Pomachahua', 'Néstor', '1208003@senati.pe', '123456789', '$2y$10$b05zu8q0AM8YtxYGWuFVBe6BfjHBgRfqWuPgoJEIUedlNBSJALAeivehiculosusuarios', '123456', 'ADMI');
+
+
+
+
 
 
 SELECT * FROM alquileres;

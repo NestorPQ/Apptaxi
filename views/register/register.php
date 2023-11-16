@@ -197,18 +197,31 @@
         alert("las contraseñas son iguales ✅");
 
         fetch(`../../controllers/usuario.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(data => {
-          console.log(data);
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            // console.log(datos);
+            // console.log(datos.resultado);
+            // datos.forEach(data => {
+            //   console.log(data);
+            // });
+            alert("Te has registrado correctamente 😁👍");
+            if (datos.resultado == "true") {
+              $("#nombre").value = '';
+              $("#apellido").value = '';
+              $("#email").value = '';
+              $("#telefono").value = '';
+              $("#password").value  = '';
+              $("#passwordConfirmation").value  = '';
+            }
 
-        })
-        .catch(e => {
-          console.error(e);
-        });
-      }else{
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      } else {
         alert("las contraseñas son diferentes 🚨");
       }
 
