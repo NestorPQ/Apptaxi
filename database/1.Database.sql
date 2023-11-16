@@ -37,7 +37,7 @@ CREATE TABLE vehiculos(
     color				VARCHAR(30)			NOT NULL,
     costo_alquiler		DECIMAL(5,2)		NOT NULL,
     tipocombustible		CHAR(9)				NOT NULL,
-    año					DATE 				NOT NULL,
+    año					CHAR(4)				NOT NULL,
     fotografia			VARCHAR(100)		NULL,
     create_at			DATETIME			NOT NULL DEFAULT NOW(),
     update_at			DATETIME			NULL,

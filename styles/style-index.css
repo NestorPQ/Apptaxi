@@ -47,15 +47,14 @@
 }
 
 .bg-car1 {
-  background-image: linear-gradient(
-    rgba(0,0,0,.5),
-    rgba(0,0,0,.5)
-  ), url(../images/img/c1.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, .5),
+      rgba(0, 0, 0, .5)), url(../images/img/c1.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+/* 
 .bg-car2 {
   background-image: linear-gradient(
     rgba(0,0,0,.5),
@@ -74,7 +73,7 @@
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-}
+} */
 
 .box-icons i {
   font-size: 40px;
@@ -110,6 +109,12 @@
   width: 300px;
 }
 
+/* @media(max-width: 1200px) {
+  .carousel .slide {
+    margin-top: 0;
+    padding: 60px 0;
+  }
+} */
 
 @media(max-width: 767px) {
   .carousel-item {

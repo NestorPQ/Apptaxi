@@ -73,12 +73,13 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
         method: "POST",
         body: parametros
       })
-      .then(respuesta => respuesta.text())
+      .then(respuesta => respuesta.json())
       .then(datos => {
-        console.log(datos);
+        // console.log(datos);
         // console.clear()
         // hipervinculo activado de forma inmediata
         if (datos.acesso) {
+          alert("Clave correcta");
           window.location.href = './views/index/index.php';
         } else {
           alert(datos.mensaje);

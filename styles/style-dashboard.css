@@ -266,7 +266,7 @@ main {
 
 .analytics {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
     margin-top: .5rem;
     margin-bottom: 2rem;
@@ -470,6 +470,7 @@ table tbody tr {
 @media only screen and (max-width: 1200px) {
     .analytics {
         grid-template-columns: repeat(2, 1fr);
+        /* grid-template-columns: 100%; */
     }
 }
 

@@ -358,6 +358,7 @@ VALUES ('', 'Pomachahua', 'Néstor', '1208003@senati.pe', '123456789', '$2y$10$b
 
 
 SELECT * FROM alquileres;
+SELECT * FROM marcas;
 SELECT * FROM vehiculos;
 CALL spu_marcas_listar();
 CALL spu_formapagos_listar();
