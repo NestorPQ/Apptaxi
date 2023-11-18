@@ -56,7 +56,7 @@
             personalizadas y un servicio excepcional para que tu camino sea
             tan emocionante como tu destino.
           </p>
-          <p><a href="#" class="btn btn-primary mt-3">Leer Mass</a></p>
+          <p><a href="#" class="btn btn-primary mt-3">Leer Más</a></p>
         </div>
       </div>
 
@@ -101,36 +101,6 @@
           </div>
         </div>
 
-        <!-- <div class="col-12 col-md-12 col-lg-4 mb-3">
-          <div class="card text-center text-white bg-car2 pb-2">
-            <div class="card-body">
-              <h3 class="card-title">Pintado Mosderno</h3>
-              <p>
-                Encontrar el vehículo perfecto para cada aventura nunca ha
-                sido tan fácil. Desde compactos ágiles hasta vehículos
-                familiares espaciosos, nuestra selección te brinda la llave
-                para desbloquear experiencias únicas, ofreciéndote libertad y
-                comodidad en cada kilómetro recorrido.
-              </p>
-              <button class="btn bg-primary text-white">Leer más</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-12 col-lg-4 mb-3">
-          <div class="card text-center text-white bg-car3 pb-2">
-            <div class="card-body">
-              <h3 class="card-title">Tapisado personalizado</h3>
-              <p>
-                Descubre la libertad de explorar nuevos horizontes y destinos
-                inexplorados a tu propio ritmo con nuestra amplia gama de
-                vehículos disponibles para alquiler, facilitando cada paso de
-                tu viaje inolvidable.
-              </p>
-              <button class="btn bg-primary text-white">Leer más</button>
-            </div>
-          </div>
-        </div> -->
 
       </div>
     </div>
@@ -279,7 +249,7 @@
   <script>
     function mostrarLista() {
       const parametros = new FormData();
-      parametros.append("operacion", "listarVehiculos");
+      parametros.append("operacion", "listarCatalogoVehiculos");
 
       fetch(`../../controllers/vehiculo.controller.php`, {
           method: "POST",
@@ -297,7 +267,7 @@
               <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div class="card bg-light shadow-sm border-0 px-2 py-3">
                   <div class="text-center">
-                    <img src="../../images/img/pr8.png" alt="" />
+                    <img src="../../images/img/cnf.png" alt="" />
                   </div>
                   <div class="card-body">
                     <h4 class="card-title"><strong>${element.marca}</strong></h4>

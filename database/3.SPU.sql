@@ -251,7 +251,7 @@ BEGIN
     FROM alquileres ALQ
     INNER JOIN formapagos PAG ON PAG.idformapago = ALQ.idformapago
     INNER JOIN vehiculos VEH ON VEH.idvehiculo = ALQ.idvehiculo
-    INNER JOIN usuarios USU ON USU.idusuario = ALQ.idcliente
+    INNER JOIN usuarios USU ON USU.idusuario = ALQ.idusuario
     WHERE ALQ.inactive_at IS NULL;
 END $$
 CALL spu_alquileres_listar();
@@ -262,19 +262,16 @@ CREATE PROCEDURE spu_alquileres_registrar(
 	IN _idformapago 		INT,
     IN _idvehiculo			INT,
     IN _idusuario			INT,
-    IN _idcliente			INT,    
-    IN _descripcion			TEXT,
     IN _fechainicio			DATE,
     IN _fechafin 			DATE,
     IN _precio_alquiler		DECIMAL(5,2),
-    IN _kilometrajeini		INT,
-    IN _kilometrajefin		INT
+    IN _kilometrajeini		INT
 )
 BEGIN
 	INSERT INTO alquileres 
-		(idformapago, idvehiculo, idusuario, idcliente, descripcion, fechainicio, fechafin, precioalquiler, kilometrajeini, kilometrajefin)
+		(idformapago, idvehiculo, idusuario, fechainicio, fechafin, precioalquiler, kilometrajeini)
 	VALUES
-		(_idformapago, _idvehiculo, _idusuario, _idcliente, _descripcion, _fechainicio, _fechafin, _precioalquiler, _kilometrajeini, _kilometrajefin);
+		(_idformapago, _idvehiculo, _idusuario, _fechainicio, _fechafin, _precioalquiler, _kilometrajeini);
 	
     SELECT @@last_insert_id 'idalquiler';
 END $$
@@ -338,6 +335,74 @@ BEGIN
     SELECT 'true' AS resultado;
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE sp_marcas_eliminar(
+	in marca_id INT
+)
+BEGIN 
+	UPDATE marcas
+		SET inactive_at = NOW()
+        WHERE idmarca = marca_id;
+END $$
+
+SELECT * FROM marcas;
+
+
+DELIMITER $$
+CREATE PROCEDURE sp_formapagos_eliminar(IN id_forma_pago INT)
+BEGIN
+    UPDATE formapagos
+    SET inactive_at = NOW()
+    WHERE idformapago = id_forma_pago;
+END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_vehiculos_eliminar_logico(
+    IN _idvehiculo INT
+)
+BEGIN
+	UPDATE vehiculos SET inactive_at = NOW() WHERE idvehiculo = _idvehiculo;
+	SELECT 'registro del vehiculo eliminado' AS mensaje;
+END;
+
+DELIMITER $$
+CREATE PROCEDURE spu_total_información()
+BEGIN
+	declare total_usuarios int;
+    declare total_vehiculos int;
+    declare total_formas_pago int;
+    declare total_marcas int;
+    declare total_alquileres int;
+
+	select count(*) into total_usuarios from usuarios where inactive_at is null;
+    select count(*) into total_vehiculos from vehiculos where inactive_at is null;
+    select count(*) into total_marcas from marcas where inactive_at is null;
+    select count(*) into total_formas_pago from formapagos where inactive_at is null;
+    select count(*) into total_alquileres from alquileres where inactive_at is null;
+    
+    select total_usuarios, total_vehiculos, total_formas_pago, total_marcas, total_alquileres;
+END $$
+
+CALL spu_total_información();
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_listar()
+BEGIN 
+	select 
+	idusuario,
+    avatar,
+    apellidos,
+    nombres,
+    email,
+    telefono,
+    nivelacceso
+ from usuarios
+ where inactive_at is null;
+ END $$
+ 
+ CALL spu_usuarios_listar();
 
 
 --  123456
@@ -351,10 +416,6 @@ use taxi;
 
 INSERT INTO usuarios (avatar, apellidos, nombres, email, telefono, claveacceso, clavegenerada, nivelacceso)
 VALUES ('', 'Pomachahua', 'Néstor', '1208003@senati.pe', '123456789', '$2y$10$b05zu8q0AM8YtxYGWuFVBe6BfjHBgRfqWuPgoJEIUedlNBSJALAeivehiculosusuarios', '123456', 'ADMI');
-
-
-
-
 
 
 SELECT * FROM alquileres;

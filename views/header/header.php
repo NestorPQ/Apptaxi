@@ -4,7 +4,6 @@ session_start(); // Crea o hereda la sessión
 // Perfiles de usuario = CONTROL DE ACCESO
 $permisos = [
   "ADMI" =>  ["dashboard", "admin"],
-  "CLIE" =>  [],
   "USER" =>  ["dashboard"],
 
 ];

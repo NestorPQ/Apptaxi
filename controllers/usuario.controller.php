@@ -100,7 +100,6 @@ if (isset($_POST['operacion'])) {
 
       $nombre = filtrar($_POST["nombre"]);
       $apellido = filtrar($_POST["apellido"]);
-
       $telefono = eliminarNoNumeros($_POST["telefono"]);
 
       $clave = $_POST["claveacceso"];
@@ -115,6 +114,10 @@ if (isset($_POST['operacion'])) {
       ];
 
       echo json_encode($usuario->registrarUsuario($datosEnviar));
+      break;
+
+    case "listarUsuarios":
+      echo json_encode($usuario->listarUsuarios());
       break;
 
     default:
