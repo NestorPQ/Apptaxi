@@ -46,6 +46,9 @@ CREATE TABLE vehiculos(
     CONSTRAINT uk_placa_veh					UNIQUE(placa)
 )ENGINE = INNODB;
 
+ALTER TABLE `taxi`.`vehiculos` 
+ADD COLUMN `kilometraje` INT NULL DEFAULT 1000 AFTER `inactive_at`; 
+
 
 CREATE TABLE formapagos(
 	idformapago			INT 				AUTO_INCREMENT PRIMARY KEY,

@@ -51,15 +51,15 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="txtvehiculo">Vehículos Disponibles</label>
-                  <select class="form-control" id="txtvehiculo">
-                    <option>Seleccione un vehículo</option>
+                  <select class="form-control" id="txtvehiculo" required>
+                    <option value="">Seleccione un vehículo</option>
                   </select>
                 </div>
 
                 <div class="form-group">
                   <label for="txtusuario">Usuario</label>
-                  <select class="form-control" id="txtusuario">
-                    <option>Seleccione un usuario</option>
+                  <select class="form-control" id="txtusuario" required>
+                    <option value="">Seleccione un usuario</option>
                   </select>
                 </div>
 
@@ -72,25 +72,27 @@
                     class="form-control"
                     id="txtCostoAlquiler"
                     aria-describedby="Costo de alquiler por día"
+                    required
                   />
                 </div>
 
                 <div class="form-group">
                   <label for="txtkilometraje">Kilometraje</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
-                    id="txtTipoCombustible"
+                    id="txtkilometraje"
                     aria-describedby="Kilometraje"
                     maxlength="30"
+                    required
                   />
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="txtformapago">Forma de Pago</label>
-                  <select class="form-control" id="txtformapago">
-                    <option>Seleccione una forma de pago</option>
+                  <select class="form-control" id="txtformapago" required>
+                    <option value="">Seleccione una forma de pago</option>
                   </select>
                 </div>
 
@@ -103,6 +105,7 @@
                     aria-describedby="Fecha Inicio"
                     min="0"
                     disabled
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -112,8 +115,11 @@
                     class="form-control"
                     id="txtfechadevolucion"
                     aria-describedby="Fecha Devolución"
-                    min="0"
+                    required
                   />
+                  <small id="txtAño" class="form-text text-muted"
+                    >* 100 días como máximos establecidos</small
+                  >
                 </div>
               </div>
             </div>
@@ -142,12 +148,34 @@
     return document.querySelector(id);
   }
 
+  function getElementById(id) {
+    return document.getElementById(id);
+  }
+
   function establecerFechaInicio() {
     const fechaInicioInput = document.getElementById("txtfechainicio");
+
     const fechaActual = new Date();
     const fechaFormatoInput = fechaActual.toISOString().split("T")[0];
     // console.log(fechaActual.toISOString().split('T'));
     fechaInicioInput.value = fechaFormatoInput;
+  }
+
+  function establecerRangoFechaDevolucion() {
+    const fechaDevolucion = document.getElementById("txtfechadevolucion");
+
+    //  Establecemos el valor inicial
+    const fechaActual = new Date();
+    const fechaFormatoInput = fechaActual.toISOString().split("T")[0];
+    // fechaDevolucion.setAttribute("value", fechaFormatoInput);
+
+    //  Establecemos los valores maximos y minimos
+    const fechaMaxima = new Date();
+    fechaMaxima.setDate(fechaMaxima.getDate() + 100);
+    const fechaFormatoMaximo = fechaMaxima.toISOString().split("T")[0];
+
+    fechaDevolucion.setAttribute("min", fechaFormatoInput);
+    fechaDevolucion.setAttribute("max", fechaFormatoMaximo);
   }
 
   function calcularDias(fechainicio = "", FechaFin = "") {
@@ -488,17 +516,40 @@
 
   function manejarSeleccionVehiculo(event) {
     const selectedOptionId = event.target.value;
-    
+
     const vehiculoSeleccionado = datosVehiculos.find(
-      vehiculo => vehiculo.idvehiculo === selectedOptionId
+      (vehiculo) => vehiculo.idvehiculo === selectedOptionId
     );
     // console.log(datosVehiculos);
     if (vehiculoSeleccionado) {
       const costoAlquiler = vehiculoSeleccionado.costo_alquiler;
+      const Kilometraje = vehiculoSeleccionado.kilometraje;
       document.getElementById("txtCostoAlquiler").value = costoAlquiler;
+      document.getElementById("txtkilometraje").value = Kilometraje;
     } else {
       console.log("Vehiculo no encontrado");
     }
+  }
+
+  function limpiarCampos() {
+    getElementById("txtvehiculo").value         = '';
+    getElementById("txtusuario").value          = '';
+    getElementById("txtkilometraje").value      = '';
+    getElementById("txtformapago").value        = '';
+    getElementById("txtfechainicio").value      = '';
+    getElementById("txtfechadevolucion").value  = '';
+    getElementById("txtCostoAlquiler").value    = '';
+  }
+
+  function registrarAlquiler() {
+    const idvehiculo = getElementById("txtvehiculo").value;
+    const idusuario = getElementById("txtusuario").value;
+    const kilometrajeini = getElementById("txtkilometraje").value;
+    const idformapago = getElementById("txtformapago").value;
+    const fechainicio = getElementById("txtfechainicio").value;
+    const fechafin = getElementById("txtfechadevolucion").value;
+    const precioalquiler = getElementById("txtCostoAlquiler").value;
+
   }
 
   //  Eventos
@@ -506,12 +557,16 @@
   let btnAgregarAlquiler = $("#form-alquiler");
   btnAgregarAlquiler.addEventListener("submit", function () {
     event.preventDefault();
-    alert("Hola niños");
+
+    registrarAlquiler();
   });
 
-  mostraUsuario();
-  mostrarVehiculos();
-  mostrarFormaPago();
-  mostrarAlquileres();
-  establecerFechaInicio();
+  document.addEventListener("DOMContentLoaded", () => {
+    mostraUsuario();
+    mostrarVehiculos();
+    mostrarFormaPago();
+    mostrarAlquileres();
+    establecerFechaInicio();
+    establecerRangoFechaDevolucion();
+  });
 </script>

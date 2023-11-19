@@ -18,7 +18,7 @@ class Alquiler extends Conexion
       $consulta->execute();
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
-      die($e -> getMessage());
+      die($e->getMessage());
     }
   }
 
@@ -29,9 +29,31 @@ class Alquiler extends Conexion
       $consulta->execute();
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
-      die($e -> getMessage());
+      die($e->getMessage());
     }
   }
+
+  public function registrarAlquiler($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_alquileres_registrar(?,?,?,?,?,?,?)");
+      $consulta->execute(array(
+        $datos["idformapago"],
+        $datos["idvehiculo"],
+        $datos["idusuario"],
+        $datos["fechainicio"],
+        $datos["fechafin"],
+        $datos["precioalquiler"],
+        $datos["kilometrajeini"]
+      ));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+
   // public function eliminarVehiculo($dato = [])
   // {
   //   try {
