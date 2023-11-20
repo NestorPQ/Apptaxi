@@ -144,11 +144,15 @@
 <script>
   let datosVehiculos = [];
 
+  //-----------------------------------------------
+  //  Funciones
+  //-----------------------------------------------
+
   function $(id) {
     return document.querySelector(id);
   }
 
-  function getElementById(id) {
+  function getElemtById(id) {
     return document.getElementById(id);
   }
 
@@ -203,18 +207,18 @@
     const unDiaEnMs = 1000 * 60 * 60 * 24;
 
     if (diferenciaEnMs > 0) {
-      const diasAtraso = Math.floor(diferenciaEnMs / unDiaEnMs);
-      return {
-        diasAtraso: diasAtraso,
-        fechaPasada: true,
-        diasRestantes: 0,
-      };
-    } else {
       const diasRestantes = Math.ceil(Math.abs(diferenciaEnMs) / unDiaEnMs);
       return {
         diasAtraso: 0,
         fechaPasada: false,
-        diasRestantes: diasRestantes - 1,
+        diasRestantes: diasRestantes + 1,
+      };
+    } else {
+      const diasAtraso = Math.floor(Math.abs(diferenciaEnMs) / unDiaEnMs);
+      return {
+        diasAtraso: diasAtraso ,
+        fechaPasada: true,
+        diasRestantes: 0,
       };
     }
   }
@@ -322,32 +326,34 @@
   function construirEstadoDevolucion(resultado) {
     let estado = "";
 
-    if (resultado.diasRestantes === 1) {
-      estado = `
-      <button type="" class="btn btn-warning" disabled>
-        ${resultado.diasRestantes} día restante
-      </button>
-    `;
+    if (resultado.fechaPasada) {
+      if (resultado.diasAtraso === 1) {
+        estado = `
+        <button type="" class="btn btn-danger" disabled>
+          ${resultado.diasAtraso} un día atrasado
+        </button>
+      `;
+      } else {
+        estado = `
+        <button type="" class="btn btn-danger" disabled>
+          ${resultado.diasAtraso} días atrasados
+        </button>
+      `;
+      }
     } else {
-      estado = `
-      <button type="" class="btn btn-warning" disabled>
-        ${resultado.diasRestantes} días restantes
-      </button>
-    `;
-    }
-
-    if (resultado.fechaPasada && resultado.diasAtraso === 1) {
-      estado = `
-      <button type="" class="btn btn-danger" disabled>
-        ${resultado.diasAtraso} un día atrasado
-      </button>
-    `;
-    } else if (resultado.fechaPasada) {
-      estado = `
-      <button type="" class="btn btn-danger" disabled>
-        ${resultado.diasAtraso} días atrasados
-      </button>
-    `;
+      if (resultado.diasRestantes === 1) {
+        estado = `
+        <button type="" class="btn btn-warning" disabled>
+          ${resultado.diasRestantes} día restante
+        </button>
+      `;
+      } else {
+        estado = `
+        <button type="" class="btn btn-warning" disabled>
+          ${resultado.diasRestantes} días restantes
+        </button>
+      `;
+      }
     }
 
     return estado;
@@ -365,9 +371,9 @@
       precioTotal = dias * precioPorDia;
 
       const resultado = controlDevolucion(dato.fechafin);
+      // const resultado = controlDevolucion("2023-11-18");
       // console.log(resultado);
       // console.log(dato.fechafin);
-      // const resultado = controlDevolucion("2023-11-18");
       const estado = construirEstadoDevolucion(resultado);
 
       // console.log(resultado);
@@ -446,7 +452,8 @@
       const idAlquiler = boton.getAttribute("data-id");
       boton.addEventListener("click", (evento) => {
         // eliminarVehiculo(idVehiculo);
-        alert(`El ID del alquiler es: ${idAlquiler}`);
+        // alert(`El ID del alquiler es: ${idAlquiler}`);
+        devolverVehiculo(idAlquiler);
       });
     });
   }
@@ -532,34 +539,78 @@
   }
 
   function limpiarCampos() {
-    getElementById("txtvehiculo").value         = '';
-    getElementById("txtusuario").value          = '';
-    getElementById("txtkilometraje").value      = '';
-    getElementById("txtformapago").value        = '';
-    getElementById("txtfechainicio").value      = '';
-    getElementById("txtfechadevolucion").value  = '';
-    getElementById("txtCostoAlquiler").value    = '';
+    const campos = [
+      "txtvehiculo",
+      "txtusuario",
+      "txtkilometraje",
+      "txtformapago",
+      "txtfechainicio",
+      "txtfechadevolucion",
+      "txtCostoAlquiler",
+    ];
+
+    campos.forEach((campo) => {
+      document.getElementById(campo).value = "";
+    });
   }
 
-  function registrarAlquiler() {
-    const idvehiculo = getElementById("txtvehiculo").value;
-    const idusuario = getElementById("txtusuario").value;
-    const kilometrajeini = getElementById("txtkilometraje").value;
-    const idformapago = getElementById("txtformapago").value;
-    const fechainicio = getElementById("txtfechainicio").value;
-    const fechafin = getElementById("txtfechadevolucion").value;
-    const precioalquiler = getElementById("txtCostoAlquiler").value;
+  async function registrarAlquiler() {
+    const idvehiculo = getElemtById("txtvehiculo").value;
+    const idusuario = getElemtById("txtusuario").value;
+    const kilometrajeini = getElemtById("txtkilometraje").value;
+    const idformapago = getElemtById("txtformapago").value;
+    const fechainicio = getElemtById("txtfechainicio").value;
+    const fechafin = getElemtById("txtfechadevolucion").value;
+    const precioalquiler = getElemtById("txtCostoAlquiler").value;
 
+    try {
+      const parametros = new FormData();
+      parametros.append("operacion", "registrarAlquiler");
+      parametros.append("idformapago", idformapago);
+      parametros.append("idvehiculo", idvehiculo);
+      parametros.append("idusuario", idusuario);
+      parametros.append("fechainicio", fechainicio);
+      parametros.append("fechafin", fechafin);
+      parametros.append("precioalquiler", precioalquiler);
+      parametros.append("kilometrajeini", kilometrajeini);
+
+      const respuesta = await fetch(
+        `../../controllers/alquiler.controller.php`,
+        {
+          method: "POST",
+          body: parametros,
+        }
+      );
+
+      if (!respuesta.ok) {
+        throw new Error("Error al registrar");
+      }
+
+      const datos = await respuesta.json();
+      console.log(datos);
+      limpiarCampos();
+      mostrarAlquileres();
+      establecerFechaInicio();
+      return datos;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   }
 
-  //  Eventos
-
-  let btnAgregarAlquiler = $("#form-alquiler");
-  btnAgregarAlquiler.addEventListener("submit", function () {
+  async function submitFormmulario(event) {
     event.preventDefault();
+    await registrarAlquiler();
+  }
 
-    registrarAlquiler();
-  });
+  function devolverVehiculo(id){
+    window.location.href = `./views/devolucionAlquiler.php?idalquiler=${id}`;
+  }
+
+
+  //-----------------------------------------------
+  //  Eventos
+  //-----------------------------------------------
 
   document.addEventListener("DOMContentLoaded", () => {
     mostraUsuario();
@@ -568,5 +619,8 @@
     mostrarAlquileres();
     establecerFechaInicio();
     establecerRangoFechaDevolucion();
+
+    const formAlquiler = document.getElementById("form-alquiler");
+    formAlquiler.addEventListener("submit", submitFormmulario);
   });
 </script>

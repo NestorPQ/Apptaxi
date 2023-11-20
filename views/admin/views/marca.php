@@ -62,6 +62,11 @@
 
 
   function eliminarMarca(id) {
+    const confirmacion = confirm("¿Estás seguro de eliminar esta marca?");
+    if(!confirmacion){
+      return ;
+    }
+
     const parametros = new FormData();
     parametros.append("operacion", "eliminarMarca");
     parametros.append("idmarca", id);
@@ -80,27 +85,6 @@
         console.log(e);
       });
   }
-
-  // function agregarMarca(id) {
-  //   const parametros = new FormData();
-  //   parametros.append("operacion", "agregarMarca");
-  //   parametros.append("marca", id);
-  //   alert(id);
-
-  //   fetch(`../../controllers/marca.controller.php`, {
-  //     method: "POST",
-  //     body: parametros,
-  //   })
-  //     .then((datos) => datos.json())
-  //     .then((datos) => {
-  //       alert("la marca se ha agregado correctamente");
-  //       document.querySelector("#txtMarca").value = '';
-  //       mostrarMarcas();
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }
 
   async function agregarMarca(id) {
     try {
@@ -177,7 +161,15 @@
       });
   }
 
+  
   //  eventos
+
+
+  document.addEventListener('copy', function(e){
+    e.preventDefault();
+    alert('¡No puedes copiar el texto desde esta página!');
+  })
+
   let btnAgregarMarca = $("#form-marca");
 
   btnAgregarMarca.addEventListener("submit", function() {
@@ -187,6 +179,8 @@
     agregarMarca(marcaNueva);
 
   });
+
+
 
   mostrarMarcas();
 </script>

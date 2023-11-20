@@ -53,6 +53,21 @@ class Alquiler extends Conexion
     }
   }
 
+  public function devolucionVehiculo($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("call spu_alquiler_devolucion(?,?,?)");
+      $consulta->execute(array(
+        $datos["idalquiler"],
+        $datos["descripcion"],
+        $datos["kilometrajefin"]
+      ));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
 
   // public function eliminarVehiculo($dato = [])
   // {

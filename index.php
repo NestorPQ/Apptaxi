@@ -2,8 +2,10 @@
 session_start();
 
 
-if (isset($_SESSION["status"]) && $_SESSION["status"]) {
-  header("./views/ventas.php");
+if (isset($_SESSION["status"]) && $_SESSION["status"] == true) {
+  header("Location: ./views/index/index.php");
+  exit;
+
 }
 
 ?>

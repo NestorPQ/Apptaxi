@@ -169,8 +169,14 @@
 </div>
 
 <script>
+  let placas = [];
+
   function $(id) {
     return document.querySelector(id);
+  }
+
+  function mostrarMensaje(mensaje){
+    alert(mensaje);
   }
 
   function rangodeFecha() {
@@ -224,6 +230,11 @@
   }
 
   function eliminarVehiculo(id) {
+    const confirmacion = confirm("¿Estás seguro de eliminar este vehículo?");
+    if(!confirmacion){
+      return ;
+    }
+
     const parametros = new FormData();
     parametros.append("operacion", "eliminarVehiculo");
     parametros.append("idvehiculo", id);
@@ -234,8 +245,8 @@
     })
       .then((datos) => datos.json())
       .then((datos) => {
-        console.log(datos);
-        alert("El vehiculo se ha eliminado correctamente");
+
+        mostrarMensaje(datos[0].mensaje);
         mostrarVehiculos();
       })
       .catch((e) => {
@@ -244,6 +255,11 @@
   }
 
   function agregarVehiculo() {
+    const confirmacion = confirm("¿Estás seguro de agregar este vehiculo?");
+    if(!confirmacion){
+      return ;
+    }
+
     const idmarca = document.querySelector("#modelos-vehiculo").value;
     const tipo = document.querySelector("#txtMarca").value;
     const placa = document.querySelector("#txtPlaca").value;
@@ -266,20 +282,25 @@
     parametros.append("año", año);
     parametros.append("fotografia", fotografia);
 
-    fetch(`../../controllers/vehiculo.controller.php`, {
-      method: "POST",
-      body: parametros,
-    })
-      .then((datos) => datos.text())
-      .then((datos) => {
-        alert(datos);
-        alert("el vehiculo se ha agregado correctamente");
-        limpiarCampos();
-        mostrarVehiculos();
+    if (placas.includes(placa)) {
+      alert(`La placa ${placa} ya se encuentra registrado en el sistema`);
+    } else {
+
+      fetch(`../../controllers/vehiculo.controller.php`, {
+        method: "POST",
+        body: parametros,
       })
-      .catch((e) => {
-        console.log(e);
-      });
+        .then((datos) => datos.json())
+        .then((datos) => {
+          // alert(datos);
+          alert("el vehiculo se ha agregado correctamente");
+          limpiarCampos();
+          mostrarVehiculos();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   }
 
   function mostrarVehiculos() {
@@ -299,6 +320,9 @@
         let numFila = 1;
         datos.forEach((dato) => {
           // console.log(dato);
+
+          placas.push(dato.placa);
+
           formHTML += `
               <tr>
                 <td>${numFila}</td>
@@ -339,14 +363,14 @@
   //  eventos
   let btnAgregarVehiculo = $("#form-vehiculo");
 
-  btnAgregarVehiculo.addEventListener("submit", function () {
-    event.preventDefault();
-    // alert(formaPagoNuevo);
-    agregarVehiculo();
-    // limpiarCampos();
-  });
-
   document.addEventListener("DOMContentLoaded", function () {
+    btnAgregarVehiculo.addEventListener("submit", function () {
+      event.preventDefault();
+      // alert(formaPagoNuevo);
+      agregarVehiculo();
+      // limpiarCampos();
+    });
+
     rangodeFecha();
     listarMarcas();
     mostrarVehiculos();

@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="card" style="min-height: 485px">
         <div class="card-header card-header-text">
-            <h4 class="card-title">FORMAS DE PAGOS REGISTRADAS</h4>
+          <h4 class="card-title">FORMAS DE PAGOS REGISTRADAS</h4>
           <p class="category">.</p>
         </div>
         <div class="card-content table-responsive">
@@ -23,14 +23,7 @@
   </div>
 
   <p class="me-3">
-    <button
-      class="btn btn-primary"
-      type="button"
-      data-toggle="collapse"
-      data-target="#collapseExample"
-      aria-expanded="false"
-      aria-controls="collapseExample"
-    >
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Agregar una forma de pago
     </button>
   </p>
@@ -43,26 +36,14 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="txtFormaPago">Forma de Pago</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="txtFormaPago"
-                    aria-describedby="emailHelp"
-                    required
-                  />
-                  <small id="txtMarca" class="form-text text-muted"
-                    >coloca una forma de pago</small
-                  >
+                  <input type="text" class="form-control" id="txtFormaPago" aria-describedby="emailHelp" required />
+                  <small id="txtMarca" class="form-text text-muted">coloca una forma de pago</small>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  id="btnAgregarMarca"
-                >
+                <button type="submit" class="btn btn-primary" id="btnAgregarMarca">
                   Agregar
                 </button>
               </div>
@@ -81,14 +62,20 @@
 
 
   function eliminarFormaPago(id) {
+
+    const confirmacion = confirm("¿Estás seguro de eliminar esta forma de pago?");
+    if (!confirmacion) {
+      return;
+    }
+
     const parametros = new FormData();
     parametros.append("operacion", "eliminarFomaPago");
     parametros.append("idformapago", id);
 
     fetch(`../../controllers/formapago.controller.php`, {
-      method: "POST",
-      body: parametros,
-    })
+        method: "POST",
+        body: parametros,
+      })
       .then((datos) => datos.json())
       .then((datos) => {
         console.log(datos);
@@ -101,15 +88,20 @@
   }
 
   function agregarFormaPago(formapago) {
+    const confirmacion = confirm("¿Estás seguro de agregar esta forma de pago?");
+    if(!confirmacion){
+      return ;
+    }
+
     const parametros = new FormData();
     parametros.append("operacion", "agregarFormaPago");
     parametros.append("formapago", formapago);
     alert(formapago);
 
     fetch(`../../controllers/formapago.controller.php`, {
-      method: "POST",
-      body: parametros,
-    })
+        method: "POST",
+        body: parametros,
+      })
       .then((datos) => datos.json())
       .then((datos) => {
         alert("la marca se ha agregado correctamente");
@@ -126,9 +118,9 @@
     parametros.append("operacion", "listarFormaPago");
 
     fetch(`../../controllers/formapago.controller.php`, {
-      method: "POST",
-      body: parametros,
-    })
+        method: "POST",
+        body: parametros,
+      })
       .then((respuesta) => respuesta.json())
       .then((datos) => {
         // console.log(datos);
@@ -172,12 +164,12 @@
   //  eventos
   let btnAgregarFormaPago = $("#form-forma-pago");
 
-  btnAgregarFormaPago.addEventListener("submit", function () {
+  btnAgregarFormaPago.addEventListener("submit", function() {
     event.preventDefault();
     const formaPagoNuevo = document.querySelector("#txtFormaPago").value;
     // alert(formaPagoNuevo);
     agregarFormaPago(formaPagoNuevo);
-    
+
   });
 
   mostrarFormasPago();

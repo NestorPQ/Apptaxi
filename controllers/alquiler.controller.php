@@ -34,9 +34,20 @@ if (isset($_POST['operacion'])) {
       echo json_encode($alquiler->registrarAlquiler($datosEnviar));
       break;
 
+    case "devolucionVehiculo":
+
+      $descripcion = filtrar( $_POST["descripcion"]);
+      $kilometraje = soloNumero($_POST["kilometrajefin"]);
+      $datosEnviar = [
+        "idalquiler"      =>  $_POST["idalquiler"],
+        "descripcion"     =>  $descripcion,
+        "kilometrajefin"  =>  $kilometraje,
+      ];
+
+      echo json_encode($alquiler->devolucionVehiculo($datosEnviar));
+      break;
+
     default:
       break;
   }
 }
-
-

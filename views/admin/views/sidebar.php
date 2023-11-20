@@ -10,10 +10,6 @@
   </div>
   <ul class="list-unstyled components">
 
-    <!-- <li class="active">
-      <a href="../index/index.php" class="dashboard"><i class="material-icons">dashboard</i><span>Dashboard</span></a>
-    </li> -->
-
     <li class="">
       <a href="index.php?page=inicio">
         <i class="material-icons">insert_chart</i>
@@ -38,7 +34,10 @@
     </li>
 
     <li class="">
-      <a href="../../controllers/usuario.controller.php?operacion=destroy"><i class="material-icons">exit_to_app</i><span>Cerrar Sesión</span></a>
+      <a href="#" id="cerrar-sesion">
+        <i class="material-icons">exit_to_app</i>
+        <span>Cerrar Sesión</span>
+      </a>
     </li>
 
 
@@ -66,112 +65,7 @@
       <li class="d-lg-none d-md-block d-xl-none d-sm-block">
         <a href="#"><i class="material-icons">apps</i><span>apps</span></a>
       </li>
-
-      <li class="d-lg-none d-md-block d-xl-none d-sm-block">
-        <a href="#"><i class="material-icons">person</i><span>user</span></a>
-      </li>
-
-      <li class="d-lg-none d-md-block d-xl-none d-sm-block">
-        <a href="#"><i class="material-icons">settings</i><span>setting</span></a>
-      </li> -->
     </div>
-
-    <!-- <li class="dropdown">
-      <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">aspect_ratio</i><span>Layouts</span></a>
-      <ul class="collapse list-unstyled menu" id="homeSubmenu1">
-        <li>
-          <a href="#">Home 1</a>
-        </li>
-        <li>
-          <a href="#">Home 2</a>
-        </li>
-        <li>
-          <a href="#">Home 3</a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="dropdown">
-      <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">apps</i><span>widgets</span></a>
-      <ul class="collapse list-unstyled menu" id="pageSubmenu2">
-        <li>
-          <a href="#">Page 1</a>
-        </li>
-        <li>
-          <a href="#">Page 2</a>
-        </li>
-        <li>
-          <a href="#">Page 3</a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="dropdown">
-      <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">equalizer</i>
-
-        <span>chart</span></a>
-      <ul class="collapse list-unstyled menu" id="pageSubmenu3">
-        <li>
-          <a href="#">Page 1</a>
-        </li>
-        <li>
-          <a href="#">Page 2</a>
-        </li>
-        <li>
-          <a href="#">Page 3</a>
-        </li>
-      </ul>
-    </li>
-    <li class="dropdown">
-      <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">extension</i><span>ui element</span></a>
-      <ul class="collapse list-unstyled menu" id="pageSubmenu4">
-        <li>
-          <a href="#">Page 1</a>
-        </li>
-        <li>
-          <a href="#">Page 2</a>
-        </li>
-        <li>
-          <a href="#">Page 3</a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="dropdown">
-      <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">border_color</i><span>forms</span></a>
-      <ul class="collapse list-unstyled menu" id="pageSubmenu5">
-        <li>
-          <a href="#">Page 1</a>
-        </li>
-        <li>
-          <a href="#">Page 2</a>
-        </li>
-        <li>
-          <a href="#">Page 3</a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="dropdown">
-      <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        <i class="material-icons">grid_on</i><span>tables</span></a>
-      <ul class="collapse list-unstyled menu" id="pageSubmenu6">
-        <li>
-          <a href="#">Page 1</a>
-        </li>
-        <li>
-          <a href="#">Page 2</a>
-        </li>
-        <li>
-          <a href="#">Page 3</a>
-        </li>
-      </ul>
-    </li>-->
 
     <!-- <li class="dropdown">
       <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -189,13 +83,6 @@
       </ul>
     </li>  -->
 
-    <!-- <li class="">
-      <a href="#"><i class="material-icons">date_range</i><span>copy</span></a>
-    </li> -->
-
-    <!-- <li class="">
-      <a href="#"><i class="material-icons">library_books</i><span>Calender</span></a>
-    </li> -->
   </ul>
 </nav>
 
@@ -236,22 +123,26 @@
                 </li>
               </ul>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="material-icons">apps</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="material-icons">person</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="material-icons">settings</span>
-              </a>
-            </li> -->
           </ul>
         </div>
       </div>
     </nav>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        const cerrarSesionLink = document.getElementById("cerrar-sesion");
+
+        function cerrarSesion(){
+          if (confirm("¿Estás seguro de que desear cerrar sesión?")) {
+            window.location.href='../../controllers/usuario.controller.php?operacion=destroy';
+          }
+        }
+      
+        if (cerrarSesionLink) {
+          cerrarSesionLink.addEventListener("click", function(event){
+            event.preventDefault();
+            cerrarSesion();
+          });
+        }
+      });
+    </script>

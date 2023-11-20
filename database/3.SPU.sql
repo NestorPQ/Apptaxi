@@ -403,6 +403,22 @@ BEGIN
  END $$
  
  CALL spu_usuarios_listar();
+ 
+ DELIMITER $$
+ CREATE PROCEDURE spu_alquiler_devolucion(
+	IN p_idalquiler INT,
+    IN p_descripcion VARCHAR(255),
+    IN p_kilometrajefin INT
+ )
+ BEGIN 
+	UPDATE alquileres
+    SET 
+		inactive_at = NOW(),
+		descripcion = p_descripcion,
+        kilometrajefin = p_kilometrajefin
+    WHERE idalquiler = p_idalquiler;
+    select "vehiculo devuelto correctamente" as mensaje;
+ END $$
 
 
 --  123456
