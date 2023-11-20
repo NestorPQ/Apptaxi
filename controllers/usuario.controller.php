@@ -120,6 +120,10 @@ if (isset($_POST['operacion'])) {
       echo json_encode($usuario->listarUsuarios());
       break;
 
+    case "listarUsuariosEstado":
+      echo json_encode($usuario->listarUsuariosEstado());
+      break;
+
     default:
       break;
   }

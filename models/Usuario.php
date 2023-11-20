@@ -11,6 +11,16 @@ class Usuario extends Conexion
     $this->conexion = parent::getConexion();
   }
 
+  public function listarUsuariosEstado(){
+    try{
+      $consulta = $this->conexion->prepare("CALL spu_usuarios_estado()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
   public function listarUsuarios(){
     try {
       $consulta = $this->conexion->prepare(" CALL spu_usuarios_listar()");

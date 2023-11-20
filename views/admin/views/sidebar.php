@@ -34,6 +34,10 @@
     </li>
 
     <li class="">
+      <a href="index.php?page=usuario"><i class="material-icons">person_pin</i><span>Usuario</span></a>
+    </li>
+
+    <li class="">
       <a href="#" id="cerrar-sesion">
         <i class="material-icons">exit_to_app</i>
         <span>Cerrar Sesión</span>

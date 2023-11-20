@@ -464,6 +464,7 @@ BEGIN
         COUNT(*) AS cantidad_alquileres
     FROM alquileres
     GROUP BY MONTH(fechainicio)
+    ORDER BY fechainicio DESC
     LIMIT 6;
 END $$
 
@@ -475,8 +476,27 @@ BEGIN
     GROUP BY MONTHNAME(fechainicio);
 END $$
 
+-- select count(*) from alquileres group by fechainicio;
 
 
+
+
+DELIMITER $$ 
+create procedure spu_usuarios_estado()
+begin 
+	select 
+		nombres,
+        apellidos,
+        telefono,
+        email,
+        nivelacceso,
+        case when inactive_at is null then 'ACTIVO'
+        else 'INACTIVO' 
+        end as 'user_estado'
+	from taxi.usuarios;
+end $$
+
+call spu_usuarios_estado();
 
 --  123456
 UPDATE usuarios
