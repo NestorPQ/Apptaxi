@@ -419,6 +419,63 @@ BEGIN
     WHERE idalquiler = p_idalquiler;
     select "vehiculo devuelto correctamente" as mensaje;
  END $$
+ 
+ DELIMITER $$
+CREATE PROCEDURE ObtenerCantidadVehiculosPorMarca()
+BEGIN
+    SELECT m.marca, COUNT(v.idvehiculo) AS cantidad_vehiculos
+    FROM marcas m
+    LEFT JOIN vehiculos v ON m.idmarca = v.idmarca
+    WHERE v.inactive_at IS NULL
+    GROUP BY m.marca;
+END $$
+
+CALL ObtenerCantidadVehiculosPorMarca();
+
+
+DELIMITER $$
+CREATE PROCEDURE ObtenerCantidadAlquileresPorMes()
+BEGIN
+    SELECT MONTH(fechainicio) AS mes, COUNT(*) AS cantidad_alquileres
+    FROM alquileres
+    GROUP BY MONTH(fechainicio)
+    LIMIT 6
+    ;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE ObtenerCantidadAlquileresPorMes()
+BEGIN
+    SELECT 
+        CASE 
+            WHEN MONTH(fechainicio) = 1 THEN 'Enero'
+            WHEN MONTH(fechainicio) = 2 THEN 'Febrero'
+            WHEN MONTH(fechainicio) = 3 THEN 'Marzo'
+            WHEN MONTH(fechainicio) = 4 THEN 'Abril'
+            WHEN MONTH(fechainicio) = 5 THEN 'Mayo'
+            WHEN MONTH(fechainicio) = 6 THEN 'Junio'
+            WHEN MONTH(fechainicio) = 7 THEN 'Julio'
+            WHEN MONTH(fechainicio) = 8 THEN 'Agosto'
+            WHEN MONTH(fechainicio) = 9 THEN 'Septiembre'
+            WHEN MONTH(fechainicio) = 10 THEN 'Octubre'
+            WHEN MONTH(fechainicio) = 11 THEN 'Noviembre'
+            WHEN MONTH(fechainicio) = 12 THEN 'Diciembre'
+        END AS nombre_mes,
+        COUNT(*) AS cantidad_alquileres
+    FROM alquileres
+    GROUP BY MONTH(fechainicio)
+    LIMIT 6;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE ObtenerCantidadAlquileresPorMes()
+BEGIN
+    SELECT MONTHNAME(fechainicio) AS nombre_mes, COUNT(*) AS cantidad_alquileres
+    FROM alquileres
+    GROUP BY MONTHNAME(fechainicio);
+END $$
+
+
 
 
 --  123456

@@ -71,6 +71,7 @@
                     type="number"
                     class="form-control"
                     id="txtCostoAlquiler"
+                    min="1"
                     aria-describedby="Costo de alquiler por día"
                     required
                   />
@@ -84,6 +85,7 @@
                     id="txtkilometraje"
                     aria-describedby="Kilometraje"
                     maxlength="30"
+                    min="1"
                     required
                   />
                 </div>

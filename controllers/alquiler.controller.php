@@ -47,6 +47,15 @@ if (isset($_POST['operacion'])) {
       echo json_encode($alquiler->devolucionVehiculo($datosEnviar));
       break;
 
+    case "listarCantidadVehiculosPorMarca":
+      echo json_encode($alquiler->cantidadVehiculosPorMarca());
+      break;
+
+    case "alquilerPorMes":
+      echo json_encode($alquiler->alquilerersPorMes());
+      break;
+
+
     default:
       break;
   }

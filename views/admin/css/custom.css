@@ -4,7 +4,7 @@ body,
 html {
     line-height: 1.8;
     font-family: 'Roboto', sans-serif;
-    color: #555e58;
+    color: #2f6842;
     text-transform: capitalize;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
@@ -287,7 +287,7 @@ a:focus {
 
 
 .navbar {
-    background-color: #2196F3;
+    background-color: #114672;
     color: #FFFFFF;
 }
 
@@ -454,7 +454,7 @@ a:focus {
 }
 
 .icon.icon-info {
-    color: #00bcd4;
+    color: rgb(14, 74, 82);
 }
 
 .card .card-footer {
@@ -465,7 +465,7 @@ a:focus {
 }
 
 .text-info {
-    color: #03A9F4 !important;
+    color: rgb(34, 127, 170) !important;
 }
 
 .card-stats .card-content {
@@ -530,7 +530,7 @@ a:focus {
 }
 
 .streamline .sl-primary {
-    border-left-color: #188ae2;
+    border-left-color: #247438;
 }
 
 .streamline .sl-item {
@@ -554,7 +554,7 @@ a:focus {
 
 .streamline .sl-primary:before,
 .streamline .sl-primary:last-child:after {
-    background-color: #188ae2;
+    background-color: #28587e;
 }
 
 

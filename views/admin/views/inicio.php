@@ -84,10 +84,18 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-12 col-md-12">
-    <div class="card" style="min-height:485px; padding: 10;">
+  <div class="col-lg-6 col-md-12">
+    <div class="card" style="padding: 20px">
       <div>
         <canvas id="migrafico"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-md-12">
+    <div class="card" style="padding: 20px">
+      <div>
+        <canvas id="misegundografico"></canvas>
       </div>
     </div>
   </div>
@@ -248,37 +256,172 @@
       window.location.href = `./report/reporte.php?reporte=${objetoCodificado}`;
     }
 
-    function generarGrafico() {
-      const contexto = document.getElementById("migrafico");
+    // bar, line, doughnut, bubble, polarArea, radar, scatter
 
-      const grafico = new Chart(contexto, {
-        type: "bar",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2, 3],
-              borderWidth: 1,
-            },
-          ],
-        },
+    // function generarGrafico() {
+    //   const contexto = document.querySelector("#migrafico");
+
+    //   const departamentos = [
+    //     { departamento: "Ica", dato: 45 },
+    //     { departamento: "Lima", dato: 65 },
+    //     { departamento: "Ayacucho", dato: 30 },
+    //     { departamento: "Tacna", dato: 60 },
+    //   ];
+
+    //   const coloresBorde = [
+    //     "rgba(13,138,193,1)",
+    //     "rgba(167,167,162,1)",
+    //     "rgba(227,77,65,1)",
+    //     "rgba(231,241,75,1)",
+    //   ];
+
+    //   const coloresFondo = [
+    //     "rgba(13,138,193,0.3)",
+    //     "rgba(167,167,162,0.3)",
+    //     "rgba(227,77,65,0.3)",
+    //     "rgba(231,241,75,0.3)",
+    //   ];
+
+    //   const grafico = new Chart(contexto, {
+    //     type: "line",
+    //     data: {
+    //       labels: departamentos.map((row) => row.departamento),
+    //       datasets: [
+    //         {
+    //           label: "Departamentos",
+    //           data: departamentos.map((row) => row.dato),
+    //           borderColor: coloresBorde,
+    //           backgroundColor: coloresFondo,
+    //           borderWidth: 2,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       scales: {
+    //         y: {
+    //           beginAtZero: true,
+    //           max: 100,
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+
+    async function generarGraficosChartJS() {
+      try {
+        const datosVehiculoMarca = await obtenerDatos(
+          "listarCantidadVehiculosPorMarca"
+        );
+
+        const datosAlquilerMes = await obtenerDatos(
+          "alquilerPorMes"
+        );
+
+        // console.log(datosVehiculoMarca);
+        // console.log(datosAlquilerMes);
+
+        const graficosVehiculosPorMarca = {
+          contexto: document.querySelector("#migrafico"),
+          tipo: "line",
+          datos: transformarDatosParaGrafico(datosVehiculoMarca, 'marca', 'cantidad_vehiculos', 'Cantidad de Vehiculos por marca'),
+          opciones: { beginAtZero: true },
+        };
+
+        const graficoAlquilerPorMes = {
+          contexto: document.querySelector("#misegundografico"),
+          tipo: "bar",
+          datos: transformarDatosParaGrafico(datosAlquilerMes, 'nombre_mes', 'cantidad_alquileres', 'cantidad de Alquileres por mes'),
+          opciones: { beginAtZero: true },
+        };
+
+        // console.log(graficosVehiculosPorMarca);
+        // console.log(graficoAlquilerPorMes);
+
+        generarGrafico(graficosVehiculosPorMarca);
+        generarGrafico(graficoAlquilerPorMes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function obtenerDatos(operacion) {
+      try {
+        const parametros = new FormData();
+        parametros.append("operacion", operacion);
+
+        const respuesta = await fetch(
+          `../../controllers/alquiler.controller.php`,
+          {
+            method: "POST",
+            body: parametros,
+          }
+        );
+
+        if (!respuesta.ok) {
+          throw new Error("Error al obtener los datos");
+        }
+
+        const datos = await respuesta.json();
+
+        return datos;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    function transformarDatosParaGrafico(datos, etiqueta, valor, titulo) {
+      const etiquetas = datos.map((item) => item[etiqueta]);
+      const valores = datos.map((item) => item[valor]);
+
+      const coloresBorde = [
+        "rgba(13,138,193,1)",
+        "rgba(167,167,162,1)",
+        "rgba(227,77,65,1)",
+        "rgba(231,241,75,1)",
+      ];
+
+      const coloresFondo = [
+        "rgba(13,138,193,0.3)",
+        "rgba(167,167,162,0.3)",
+        "rgba(227,77,65,0.3)",
+        "rgba(231,241,75,0.3)",
+      ];
+
+      return {
+        labels: etiquetas,
+        datasets: [
+          {
+            label: titulo,
+            data: valores,
+            backgroundColor: coloresFondo,
+            borderColor: coloresBorde,
+            borderWidth: 1,
+          },
+        ],
+      };
+    }
+
+    function generarGrafico({ contexto, tipo, datos, opciones }) {
+      new Chart(contexto, {
+        type: tipo,
+        data: datos,
         options: {
           scales: {
-            y: {
-              beginAtZero: true,
-            },
+            y: opciones,
           },
         },
       });
     }
 
+
+
     $("#generarPDF").addEventListener("click", function (event) {
       event.preventDefault();
       generarReporte();
     });
+    generarGraficosChartJS();
 
-    generarGrafico();
+    // generarSegundoGrafico();
     mostrarTotalInformacion();
   });
 </script>

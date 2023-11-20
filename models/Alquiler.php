@@ -68,53 +68,24 @@ class Alquiler extends Conexion
     }
   }
 
+  public function cantidadVehiculosPorMarca(){
+    try {
+      $consulta = $this->conexion->prepare("CALL ObtenerCantidadVehiculosPorMarca()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 
-  // public function eliminarVehiculo($dato = [])
-  // {
-  //   try {
-  //     $consulta = $this->conexion->prepare("call spu_vehiculos_eliminar_logico(?)");
-  //     $consulta->execute(
-  //       array(
-  //         $dato["idvehiculo"]
-  //       )
-  //     );
-
-  //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-  //   } catch (Exception $e) {
-  //     die($e -> getMessage());
-  //   }
-  // }
-  // public function listarVehiculos()
-  // {
-  //   try {
-  //     $consulta = $this->conexion->prepare("call spu_vehiculos_listar()");
-  //     $consulta->execute();
-  //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-  //   } catch (Exception $e) {
-  //     die($e -> getMessage());
-  //   }
-  // }
-  // public function agregarVehiculo($dato = [])
-  // {
-  //   try {
-  //     $consulta = $this->conexion->prepare("call spu_vehiculos_registrar(?,?,?,?,?,?,?,?)");
-  //     $consulta->execute(
-  //       array(
-  //         $dato['idmarca'],
-  //         $dato['tipo'],
-  //         $dato['placa'],
-  //         $dato['color'],
-  //         $dato['costo_alquiler'],
-  //         $dato['tipocombustible'],
-  //         $dato['año'],
-  //         $dato['fotografia']
-  //       )
-  //     );
-  //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-  //   } catch (Exception $e) {
-  //     die($e -> getMessage());
-  //   }
-  // }
-
+  public function alquilerersPorMes(){
+    try {
+      $consulta = $this->conexion->prepare("call taxi.ObtenerCantidadAlquileresPorMes()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 
 }

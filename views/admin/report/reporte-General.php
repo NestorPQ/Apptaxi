@@ -3,7 +3,7 @@
   <h1 class="fs-5 text-center text-bold mt-5">Conteo total</h1>
 
   <p class="mb-3 fs-3 mt-4 text-center">
-    Conteo total conteo total de los registros en el sistema
+    Conteo total de los registros en el sistema
   </p>
 
   <table class="table mt-5">
