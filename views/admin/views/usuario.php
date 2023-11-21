@@ -68,8 +68,7 @@
         parametros.append("operacion", "listarUsuariosEstado");
 
         const respuesta = await fetch(
-          `../../controllers/usuario.controller.php`,
-          {
+          `../../controllers/usuario.controller.php`, {
             method: "POST",
             body: parametros,
           }
@@ -128,7 +127,19 @@
       let numFila = 1;
 
       datos.forEach((dato) => {
-        // console.log(dato);
+        let estadoHTML = "";
+
+        switch (dato.user_estado) {
+          case 'ACTIVO':
+            estadoHTML = `<button type="" class="btn btn-success" disabled>${dato.user_estado}</button>`;
+            break;
+          case 'INACTIVO':
+            estadoHTML = `<button type="" class="btn btn-danger" disabled>${dato.user_estado}</button>`;
+            break;
+          default:
+            estadoHTML = `<button type="" class="btn btn-info" disabled>sin dato</button>`;
+            break;
+        }
 
         formHTML += `
               <tr>
@@ -138,7 +149,7 @@
                 <td class="text-center">${dato.telefono}</td>
                 <td class="text-center">${dato.email}</td>
                 <td class="text-center">${dato.nivelacceso}</td>
-                <td class="text-center">${dato.user_estado}</td>
+                <td class="text-center">${estadoHTML}</td>
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-outline-info" disabled>Desactivar</button>
