@@ -3,16 +3,17 @@
     <div class="col-lg-12">
       <div class="card" style="min-height: 485px">
         <div class="card-header card-header-text">
-          <h1 class="card-title  text-monospace  text-center">Registro de los usuarios</h1>
+          <h1 class="card-title text-monospace text-center">
+            Registro de los usuarios
+          </h1>
           <p class="category">.</p>
         </div>
-        <div class="card-content table-responsive ">
+        <div class="card-content table-responsive">
           <table class="table table-hover table-bordered">
             <thead class="text-white text-center bg-secondary">
               <tr>
                 <th class="col-1">N°</th>
-                <th class="col-1">Nombre</th>
-                <th class="col-1">Apellido</th>
+                <th class="col-1">Nombre Completo</th>
                 <th class="col-1">Telefono</th>
                 <th class="col-1">Correo</th>
                 <th class="col-1">Nivel de Acceso</th>
@@ -26,6 +27,52 @@
       </div>
     </div>
   </div>
+
+  <!-- Button trigger modal -->
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#exampleModal"
+  >
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    data-backdrop="false"
+    
+  >
+    <div class="modal-dialog " role="document">
+      <div class="modal-content rounded-0">
+        <div class="modal-header bg-primary rounded-0">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">...</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-info rounded-0">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin del modal -->
 
   <script>
     let datosVehiculos = [];
@@ -68,7 +115,8 @@
         parametros.append("operacion", "listarUsuariosEstado");
 
         const respuesta = await fetch(
-          `../../controllers/usuario.controller.php`, {
+          `../../controllers/usuario.controller.php`,
+          {
             method: "POST",
             body: parametros,
           }
@@ -84,6 +132,43 @@
         console.log(error);
         return [];
       }
+    }
+
+    function verificarEstado(estado) {
+      let estadoHTML = "";
+
+      switch (estado) {
+        case "ACTIVO":
+          estadoHTML = `<button type="" class="btn btn-success" disabled>${estado}</button>`;
+          break;
+        case "INACTIVO":
+          estadoHTML = `<button type="" class="btn btn-danger" disabled>${estado}</button>`;
+          break;
+        default:
+          estadoHTML = `<button type="" class="btn btn-info" disabled>sin dato</button>`;
+          break;
+      }
+
+      return estadoHTML;
+    }
+
+    function verificarNivelAcceso(nivelAcc) {
+      let nivelaccesoHTML = "";
+
+      switch (nivelAcc) {
+        case "USER":
+          nivelAccesoHTML = `<button type="" class="btn btn-secondary" disabled>${nivelAcc}</button>`;
+          break;
+        case "ADMI":
+          nivelAccesoHTML = `<button type="" class="btn btn-info" disabled>${nivelAcc}</button>`;
+          break;
+        default:
+          nivelAccesoHTML = `<button type="" class="btn btn-info" disabled>SIN DATO</button>`;
+
+          break;
+      }
+
+      return nivelAccesoHTML;
     }
 
     function construirEstadoDevolucion(resultado) {
@@ -127,28 +212,22 @@
       let numFila = 1;
 
       datos.forEach((dato) => {
-        let estadoHTML = "";
+        
+        const nivelAccesoHTML = verificarNivelAcceso(dato.nivelacceso);
+        const estadoHTML = verificarEstado(dato.user_estado);
 
-        switch (dato.user_estado) {
-          case 'ACTIVO':
-            estadoHTML = `<button type="" class="btn btn-success" disabled>${dato.user_estado}</button>`;
-            break;
-          case 'INACTIVO':
-            estadoHTML = `<button type="" class="btn btn-danger" disabled>${dato.user_estado}</button>`;
-            break;
-          default:
-            estadoHTML = `<button type="" class="btn btn-info" disabled>sin dato</button>`;
-            break;
-        }
+        const telefonOculto = dato.telefono.slice(0, -4) + "****";
+        // console.log(dato);
+        // console.log(nivelAccesoHTML);
+        // console.log(dato.nivelacceso);
 
         formHTML += `
               <tr>
                 <td>${numFila}</td>
-                <td class="text-center">${dato.nombres}</td>
-                <td class="text-center">${dato.apellidos}</td>
-                <td class="text-center">${dato.telefono}</td>
+                <td class="text-center">${dato.apellidos}, ${dato.nombres}</td>
+                <td class="text-center">${telefonOculto}</td>
                 <td class="text-center">${dato.email}</td>
-                <td class="text-center">${dato.nivelacceso}</td>
+                <td class="text-center">${nivelAccesoHTML}</td>
                 <td class="text-center">${estadoHTML}</td>
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">

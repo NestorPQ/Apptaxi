@@ -56,6 +56,9 @@
 </div>
 
 <script>
+  let marcasDato = [];
+
+
   function $(id) {
     return document.querySelector(id);
   }
@@ -63,8 +66,8 @@
 
   function eliminarMarca(id) {
     const confirmacion = confirm("¿Estás seguro de eliminar esta marca?");
-    if(!confirmacion){
-      return ;
+    if (!confirmacion) {
+      return;
     }
 
     const parametros = new FormData();
@@ -86,27 +89,35 @@
       });
   }
 
-  async function agregarMarca(id) {
+  async function agregarMarca(marca) {
     try {
       const parametros = new FormData();
       parametros.append("operacion", "agregarMarca");
-      parametros.append("marca", id);
-      alert(id);
+      parametros.append("marca", marca);
+      // alert(id);
+      // alert(marcasDato);
+      // console.log(marcasDato);
 
-      const response = await fetch(`../../controllers/marca.controller.php`, {
-        method: "POST",
-        body: parametros,
-      });
+      if (marcasDato.includes(marca)) {
+        alert(`La marca ${marca} ya se encuentra registrado en el sistema`);
 
-      if (!response.ok) {
-        throw new Error("Error al agregar la marca");
+      } else {
+        
+        const response = await fetch(`../../controllers/marca.controller.php`, {
+          method: "POST",
+          body: parametros,
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al agregar la marca");
+        }
+
+        const datos = await response.json();
+        alert("La marca se ha agregado correctamente");
+        document.querySelector("#txtMarca").value = '';
+        mostrarMarcas();
       }
 
-      const datos = await response.json();
-      alert("La marca se ha agregado correctamente");
-      document.querySelector("#txtMarca").value = '';
-      mostrarMarcas();
-      
     } catch (error) {
       console.error(error);
     }
@@ -116,6 +127,7 @@
   function mostrarMarcas() {
     const parametros = new FormData();
     parametros.append("operacion", "listarMarcas");
+
 
     fetch(`../../controllers/marca.controller.php`, {
         method: "POST",
@@ -130,7 +142,9 @@
         let formHTML = "";
         let numFila = 10;
         datos.forEach((marca) => {
-          // console.log(marca);
+          // console.log(marca)
+          marcasDato.push(marca.marca);
+
           formHTML += `
               <tr>
                 <td>${numFila}</td>
@@ -161,11 +175,11 @@
       });
   }
 
-  
+
   //  eventos
 
 
-  document.addEventListener('copy', function(e){
+  document.addEventListener('copy', function(e) {
     e.preventDefault();
     alert('¡No puedes copiar el texto desde esta página!');
   })

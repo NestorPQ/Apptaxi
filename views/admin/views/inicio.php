@@ -324,14 +324,14 @@
           contexto: document.querySelector("#migrafico"),
           tipo: "line",
           datos: transformarDatosParaGrafico(datosVehiculoMarca, 'marca', 'cantidad_vehiculos', 'Cantidad de Vehiculos por marca'),
-          opciones: { beginAtZero: true },
+          opciones: { beginAtZero: true, ticks: {precision: 0} },
         };
 
         const graficoAlquilerPorMes = {
           contexto: document.querySelector("#misegundografico"),
           tipo: "bar",
           datos: transformarDatosParaGrafico(datosAlquilerMes, 'nombre_mes', 'cantidad_alquileres', 'cantidad de Alquileres por mes'),
-          opciones: { beginAtZero: true },
+          opciones: { beginAtZero: true, ticks: {precision: 0 }},
         };
 
         // console.log(graficosVehiculosPorMarca);
@@ -407,7 +407,7 @@
         data: datos,
         options: {
           scales: {
-            y: opciones,
+            y: opciones
           },
         },
       });

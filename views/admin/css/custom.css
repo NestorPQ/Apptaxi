@@ -127,6 +127,7 @@ a:focus {
     position: relative;
     width: 100%;
     overflow: auto;
+    /* overflow: visible; */
 }
 
 

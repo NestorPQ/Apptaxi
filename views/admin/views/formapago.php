@@ -56,6 +56,8 @@
 </div>
 
 <script>
+  let formasDePago = [];
+
   function $(id) {
     return document.querySelector(id);
   }
@@ -88,29 +90,38 @@
   }
 
   function agregarFormaPago(formapago) {
-    const confirmacion = confirm("¿Estás seguro de agregar esta forma de pago?");
-    if(!confirmacion){
-      return ;
+
+    if (formasDePago.includes(formapago)) {
+      alert(`La forma de pago ${formapago} ya se encuentra registrado en el sistema`);
+    } else {
+
+      const confirmacion = confirm("¿Estás seguro de agregar esta forma de pago?");
+      if (!confirmacion) {
+        return;
+      }
+
+      const parametros = new FormData();
+      parametros.append("operacion", "agregarFormaPago");
+      parametros.append("formapago", formapago);
+      alert(formapago);
+
+      fetch(`../../controllers/formapago.controller.php`, {
+          method: "POST",
+          body: parametros,
+        })
+        .then((datos) => datos.json())
+        .then((datos) => {
+          alert("la marca se ha agregado correctamente");
+          document.querySelector("#txtMarca").value = '';
+          mostrarFormasPago();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
     }
 
-    const parametros = new FormData();
-    parametros.append("operacion", "agregarFormaPago");
-    parametros.append("formapago", formapago);
-    alert(formapago);
 
-    fetch(`../../controllers/formapago.controller.php`, {
-        method: "POST",
-        body: parametros,
-      })
-      .then((datos) => datos.json())
-      .then((datos) => {
-        alert("la marca se ha agregado correctamente");
-        document.querySelector("#txtMarca").value = '';
-        mostrarFormasPago();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   }
 
   function mostrarFormasPago() {
@@ -129,7 +140,9 @@
         let formHTML = "";
         let numFila = 1;
         datos.forEach((dato) => {
-          // console.log(marca);
+          // console.log(dato.formapago);
+          formasDePago.push(dato.formapago);
+
           formHTML += `
               <tr>
                 <td>${numFila}</td>
