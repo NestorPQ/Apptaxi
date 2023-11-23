@@ -47,12 +47,21 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-md-10">
-          <div class="card">
-            <div class="card-header">
+          <div class="card rounded-0">
+            <!-- <div class="card-header">
               <progress></progress>
+            </div> -->
+            <div class="card-head bg-primary">
+              <h1 class="text-center mt-3 text-white">
+                Devolución del vehiculo
+              </h1>
             </div>
-            <div class="card-body">
-              <h1 class="text-center">Devolución del vehiculo</h1>
+            <div class="card-body mt-4">
+              <h4 class="text-center" id="txtvehiculo"></h4>
+
+              <h4 class="text-center mt-2" id="txtkilometraje"></h4>
+
+              <!-- <h4 class="text-center">Devolución del vehiculo</h4> -->
               <form autocomplete="off" id="form-caracte" class="form-sm">
                 <div class="mb-3">
                   <label for="txtidalquiler" class="form-label"
@@ -60,7 +69,7 @@
                   >
                   <input
                     type="number"
-                    class="form-control"
+                    class="form-control rounded-0"
                     id="txtidalquiler"
                     required
                     min="1"
@@ -72,7 +81,7 @@
                   >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control rounded-0"
                     id="txtdescripcion"
                     required
                   />
@@ -83,7 +92,7 @@
                   >
                   <input
                     type="number"
-                    class="form-control"
+                    class="form-control rounded-0"
                     id="txtkilometrajefin"
                     required
                     min="1"
@@ -91,7 +100,7 @@
                 </div>
                 <button
                   type="submit"
-                  class="btn btn-primary"
+                  class="btn btn-primary rounded-0"
                   id="guardar-caracteristica"
                 >
                   Completar registro
@@ -117,7 +126,9 @@
           </div>
         </div>
         <a href="#" class="mt-5" onclick="history.back(); return false;">
-          <button type="button" class="btn btn-primary"><-- Volver</button>
+          <button type="button" class="btn btn-primary rounded-0">
+            <-- Volver
+          </button>
         </a>
       </div>
     </div>
@@ -151,11 +162,23 @@
         //-----------------------------------------------
         const urlParams = new URLSearchParams(window.location.search);
         const alquilerId = urlParams.get("idalquiler");
+        const vehiculoA = urlParams.get("vehiculo");
+        const kilometrajeA = urlParams.get("kilometraje");
 
         function establecerId() {
           const idAlquiler = getById("txtidalquiler");
           idAlquiler.setAttribute("value", alquilerId);
           idAlquiler.setAttribute("disabled", "true");
+
+          const vehiculoI = getById("txtvehiculo");
+          vehiculoI.innerHTML = `<strong>Vehiculo: </strong> ${vehiculoA}`;
+
+          const KilometajeInfo = getById("txtkilometraje");
+          KilometajeInfo.innerHTML = `<strong>Kilometraje: </strong> ${kilometrajeA}`;
+
+          const kilometrajeI = getById("txtkilometrajefin");
+          kilometrajeI.setAttribute("value", kilometrajeA + 1);
+          kilometrajeI.setAttribute("min", kilometrajeA + 1);
         }
 
         function limpiarCampos() {
@@ -173,14 +196,17 @@
           try {
             const parametros = new FormData();
             parametros.append("operacion", "devolucionVehiculo");
-            parametros.append("idalquiler", $("#txtidalquiler").value);
+            // parametros.append("idalquiler", $("#txtidalquiler").value);
+            parametros.append("idalquiler", alquilerId);
             parametros.append("descripcion", $("#txtdescripcion").value);
             parametros.append("kilometrajefin", $("#txtkilometrajefin").value);
+
+            console.log(alquilerId);
 
             const respuesta = await axios
               .post(`../../../controllers/alquiler.controller.php`, parametros)
               .then((respuesta) => {
-                // console.log(respuesta.data);
+                console.log(respuesta.data);
                 respuesta.data.forEach((dato) => {
                   // console.log(dato.mensaje);
                   // alert("Vehículo devuelto satisfactoriamente");
@@ -210,7 +236,7 @@
             // console.log(progressBar);
             registrarDevolucionVehihulo();
             // window.location.href = `../`;
-            history.back()
+            // history.back();
           }
         });
 

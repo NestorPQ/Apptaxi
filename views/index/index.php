@@ -24,6 +24,8 @@
     <h1>Este es el index</h1>
   </div> -->
 
+
+
   <div id="carouselE1" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselE1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="slide 1"></button>
@@ -39,7 +41,11 @@
         <div class="carousel-caption">
           <h5>Alquila, conduce, disfruta</h5>
           <p>
-            Encontrar el vehículo perfecto para cada aventura nunca ha sido tan fácil. Desde compactos ágiles hasta vehículos familiares espaciosos, nuestra selección te brinda la llave para desbloquear experiencias únicas, ofreciéndote libertad y comodidad en cada kilómetro recorrido.
+            Encontrar el vehículo perfecto para cada aventura nunca ha sido
+            tan fácil. Desde compactos ágiles hasta vehículos familiares
+            espaciosos, nuestra selección te brinda la llave para desbloquear
+            experiencias únicas, ofreciéndote libertad y comodidad en cada
+            kilómetro recorrido.
           </p>
           <p><a href="#" class="btn btn-primary mt-3">Leer Mass</a></p>
         </div>
@@ -65,7 +71,10 @@
         <div class="carousel-caption">
           <h5>Explora, vive, disfruta</h5>
           <p>
-            Descubre la libertad de explorar nuevos horizontes y destinos inexplorados a tu propio ritmo con nuestra amplia gama de vehículos disponibles para alquiler, facilitando cada paso de tu viaje inolvidable.
+            Descubre la libertad de explorar nuevos horizontes y destinos
+            inexplorados a tu propio ritmo con nuestra amplia gama de
+            vehículos disponibles para alquiler, facilitando cada paso de tu
+            viaje inolvidable.
           </p>
           <p><a href="#" class="btn btn-primary mt-3">Leer Mass</a></p>
         </div>
@@ -85,7 +94,7 @@
   <section class="services mt-3">
     <div class="container">
       <div class="row">
-        <div class="col-12 col-md-12 col-lg-6 mb-3">
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
           <div class="card text-center text-white bg-car1 pb-2">
             <div class="card-body">
               <h3 class="card-title">Conduce hacia tus sueños.</h3>
@@ -100,8 +109,6 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </section>
@@ -109,7 +116,6 @@
   <section class="section-icons">
     <div class="container">
       <div class="row">
-
         <div class="col-12 col-md-12 col-lg-4 box-icons">
           <div class="d-flex align-items-center">
             <i class="bi bi-airplane"></i>
@@ -139,7 +145,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -148,7 +153,7 @@
     <div class="container">
       <div class="col-md-12">
         <div class="secction-header text-center pb-5">
-          <h2><strong>Vehiculos Disponibles</strong></h2>
+          <h2><strong>Vehículos Disponibles</strong></h2>
           <p>
             Conducir hacia tu destino soñado se vuelve una realidad fácil y
             emocionante con nuestra amplia selección de vehículos listos para
@@ -261,13 +266,23 @@
           const formContainer = document.getElementById("formContainer");
           let formHTML = "";
           datos.forEach((element) => {
+            // <img src="../../images/img/cnf.png" alt="" />
+
+            let ruta = "";
+            // console.log(element);
+            if (element.fotografia == null) {
+              ruta = "../../images/img/cnf.png";
+            } else {
+              ruta = element.fotografia;
+            }
+
             formHTML += `
   
                   
               <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div class="card bg-light shadow-sm border-0 px-2 py-3">
                   <div class="text-center">
-                    <img src="../../images/img/cnf.png" alt="" />
+                    <img src="../../images/img-car/${ruta}" alt="" />
                   </div>
                   <div class="card-body">
                     <h4 class="card-title"><strong>${element.marca}</strong></h4>
@@ -287,7 +302,9 @@
                       <strong>Combustible:</strong>
                       ${element.tipocombustible}
                     </h6>
-                    <buttom type="submit" class="btn btn-success"><strong>Cotizar</strong></buttom>
+                    <a href="https://api.whatsapp.com/send?phone=51987654321&text=Buenos%20d%C3%ADa%2C%20me%20interesar%C3%ADa%20saber%20m%C3%A1s%20sobre%20tal%20veh%C3%ADculo%20de%20alquiler">
+                      <buttom type="submit" class="btn btn-success"><strong>Cotizar</strong></buttom>
+                    </a>
                   </div>
                 </div>
               </div>     
@@ -296,7 +313,7 @@
               `;
 
             formContainer.innerHTML = formHTML;
-            console.log(element);
+            // console.log(element);
             // console.log(element.tipo);
           });
         })

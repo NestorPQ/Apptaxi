@@ -39,6 +39,10 @@ INSERT INTO formapagos (formapago)
 INSERT INTO alquileres (idformapago, idvehiculo, idusuario, descripcion, fechainicio, fechafin, precioalquiler, kilometrajeini, kilometrajefin)
 	VALUEs(3, 2, 1, 'Carro en mala condición', '2023-11-09', '2023-11-16', 50, '100', '250');
 
+INSERT INTO estadisticas_totales (total_usuarios, total_vehiculos, total_formas_pago, total_marcas, total_alquileres)
+VALUES (0, 0, 0, 0, 0);
+
+
 SELECT * FROM usuarios;
 SELECT * FROM marcas;
 SELECT * FROM vehiculos;

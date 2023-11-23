@@ -38,6 +38,7 @@ CREATE TABLE vehiculos(
     costo_alquiler		DECIMAL(5,2)		NOT NULL,
     tipocombustible		CHAR(9)				NOT NULL,
     año					CHAR(4)				NOT NULL,
+    kilometraje			INT NULL 			DEFAULT 0,
     fotografia			VARCHAR(100)		NULL,
     create_at			DATETIME			NOT NULL DEFAULT NOW(),
     update_at			DATETIME			NULL,
@@ -45,9 +46,6 @@ CREATE TABLE vehiculos(
     CONSTRAINT fk_idmarca_veh				FOREIGN KEY(idmarca) REFERENCES marcas (idmarca),
     CONSTRAINT uk_placa_veh					UNIQUE(placa)
 )ENGINE = INNODB;
-
-ALTER TABLE `taxi`.`vehiculos` 
-ADD COLUMN `kilometraje` INT NULL DEFAULT 1000 AFTER `inactive_at`; 
 
 
 CREATE TABLE formapagos(
@@ -81,3 +79,15 @@ CREATE TABLE alquileres(
     CONSTRAINT chk_fechafin_al     CHECK(fechafin >= fechainicio),
     CONSTRAINT chk_kilometrajefin  CHECK(kilometrajefin > kilometrajeini)
 ) ENGINE=INNODB;
+
+
+--  TABLA AUXILIAR PARA ALMACENAR LAS ESTADISTICAS TOTALES
+CREATE TABLE estadisticas_totales (
+	total_usuarios		INT,
+    total_vehiculos		INT,
+    total_formas_pago	INT,
+    total_marcas		INT,
+	total_alquileres	INT
+);
+
+

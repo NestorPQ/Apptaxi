@@ -26,6 +26,9 @@ if (isset($_POST['operacion'])) {
       break;
 
     case 'registrarVehiculo':
+      $ahora = date('dmYhis');
+      $nombreArchivo = sha1($ahora). ".jpg";
+
       $color      = filtrar($_POST["color"]);
       $tipocombustible = filtrar($_POST["tipocombustible"]);
       $tipo = filtrar($_POST["tipo"]);
@@ -39,6 +42,13 @@ if (isset($_POST['operacion'])) {
         "año" => $_POST["año"],
         "fotografia" => "",
       ];
+
+      if(isset($_FILES['fotografia'])){
+        if(move_uploaded_file($_FILES['fotografia']['tmp_name'], "../images/img-car/". $nombreArchivo)){
+          $datosEnviar["fotografia"] = $nombreArchivo;
+        }
+      }
+
       echo json_encode($vehiculo->agregarVehiculo($datosEnviar));
       break;
 

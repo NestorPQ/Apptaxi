@@ -29,17 +29,17 @@
   </div>
 
   <!-- Button trigger modal -->
-  <button
+  <!-- <button
     type="button"
     class="btn btn-primary"
     data-toggle="modal"
     data-target="#exampleModal"
   >
     Launch demo modal
-  </button>
+  </button> -->
 
   <!-- Modal -->
-  <div
+  <!-- <div
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
@@ -47,12 +47,13 @@
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
     data-backdrop="false"
-    
   >
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content rounded-0">
         <div class="modal-header bg-primary rounded-0">
-          <h5 class="modal-title text-white" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title text-white" id="exampleModalLabel">
+            Modal title
+          </h5>
           <button
             type="button"
             class="close"
@@ -64,14 +65,20 @@
         </div>
         <div class="modal-body">...</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary rounded-0"
+            data-dismiss="modal"
+          >
             Close
           </button>
-          <button type="button" class="btn btn-info rounded-0">Save changes</button>
+          <button type="button" class="btn btn-info rounded-0">
+            Save changes
+          </button>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Fin del modal -->
 
   <script>
@@ -212,7 +219,6 @@
       let numFila = 1;
 
       datos.forEach((dato) => {
-        
         const nivelAccesoHTML = verificarNivelAcceso(dato.nivelacceso);
         const estadoHTML = verificarEstado(dato.user_estado);
 

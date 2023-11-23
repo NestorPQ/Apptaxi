@@ -11,7 +11,7 @@ $permisos = [
 
 if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
   # code...
-  echo "<h1 class='mt-5 text-center'>Acesso denegado 🤨 </h1>";
+  echo "<h1 class='mt-5 text-center'>Acceso denegado 🤨 </h1>";
   echo "<a href='../../index.php'>Iniciar Sessión</a>";
   exit();
 }
