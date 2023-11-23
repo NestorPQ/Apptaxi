@@ -11,6 +11,21 @@ class Vehiculo extends Conexion
     $this->conexion = parent::getConexion();
   }
 
+  public function actualizarKilometraje($datos = []){
+    try {
+      $consulta = $this->conexion->prepare('call spu_vehiculos_actualizar_quilometraje(?,?)');
+      $consulta->execute(array(
+        $datos["idvehiculo"],
+        $datos["kilometraje"]
+      ));
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
   public function listarCatalogoVehiculos()
   {
     try {

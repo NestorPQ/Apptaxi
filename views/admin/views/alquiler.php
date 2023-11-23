@@ -399,7 +399,7 @@
                 <td class="text-center">S/. ${precioTotal}</td>
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-info eliminar-btn" data-vehiculo="${dato.tipo}" data-kilometraje="${dato.kilometraje}" data data-id="${dato.idalquiler}">Devolución</button>
+                    <button type="button" class="btn btn-info eliminar-btn" data-vehiculo="${dato.tipo}" data-kilometraje="${dato.kilometraje}" data data-id="${dato.idalquiler}" data-idvehiculo="${dato.idvehiculo}">Devolución</button>
                   </div>         
                 </td>
               </tr> 
@@ -454,10 +454,11 @@
       const idAlquiler = boton.getAttribute("data-id");
       const vehiculo = boton.getAttribute("data-vehiculo");
       const kilometraje = boton.getAttribute("data-kilometraje");
+      const idVehiculo = boton.getAttribute("data-idvehiculo");
       boton.addEventListener("click", (evento) => {
         // eliminarVehiculo(idVehiculo);
         // alert(`El ID del alquiler es: ${idAlquiler}`);
-        devolverVehiculo(idAlquiler, vehiculo, kilometraje);
+        devolverVehiculo(idAlquiler, vehiculo, kilometraje, idVehiculo);
       });
     });
   }
@@ -607,8 +608,8 @@
     await registrarAlquiler();
   }
 
-  function devolverVehiculo(id, vehiculo, kilometraje){
-    window.location.href = `./views/devolucionAlquiler.php?idalquiler=${id}&vehiculo=${vehiculo}&kilometraje=${kilometraje}`;
+  function devolverVehiculo(id, vehiculo, kilometraje, idvehiculo){
+    window.location.href = `./views/devolucionAlquiler.php?idalquiler=${id}&vehiculo=${vehiculo}&kilometraje=${kilometraje}&idvehiculo=${idvehiculo}`;
   }
 
 

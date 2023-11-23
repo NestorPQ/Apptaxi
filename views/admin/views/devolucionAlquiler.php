@@ -164,6 +164,7 @@
         const alquilerId = urlParams.get("idalquiler");
         const vehiculoA = urlParams.get("vehiculo");
         const kilometrajeA = urlParams.get("kilometraje");
+        const IdVehiculo = urlParams.get("idvehiculo");
 
         function establecerId() {
           const idAlquiler = getById("txtidalquiler");
@@ -201,7 +202,12 @@
             parametros.append("descripcion", $("#txtdescripcion").value);
             parametros.append("kilometrajefin", $("#txtkilometrajefin").value);
 
-            console.log(alquilerId);
+            // console.log(alquilerId);
+
+            const actualizarKilometraje = await actualizarKilometrajeF(
+              IdVehiculo,
+              $("#txtkilometrajefin").value
+            );
 
             const respuesta = await axios
               .post(`../../../controllers/alquiler.controller.php`, parametros)
@@ -221,6 +227,27 @@
             alert("Hubo un error al procesar la solicitud");
           } finally {
             progressBar.style.display = "none";
+          }
+        }
+
+        async function actualizarKilometrajeF(id, kilome) {
+          try {
+            const parametros = new FormData();
+            parametros.append("operacion", "actualizarKilometraje");
+            parametros.append("idvehiculo", id);
+            parametros.append("kilometraje", kilome);
+
+            const respuesta = await axios
+              .post(`../../../controllers/vehiculo.controller.php`, parametros)
+              .then((respuesta) => {
+                console.log(respuesta.data);
+                respuesta.data.forEach((dato) => {
+                  console.log(dato);
+                });
+              });
+          } catch (error) {
+            console.error(error);
+            alert("Hubo un error al procesar la solicitud");
           }
         }
 

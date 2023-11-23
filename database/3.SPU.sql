@@ -498,6 +498,20 @@ end $$
 
 call spu_usuarios_estado();
 
+DELIMITER $$
+CREATE PROCEDURE spu_vehiculos_actualizar_quilometraje(
+IN 	_id 			INT,
+IN	_kilometraje 	INT
+)
+BEGIN
+	UPDATE vehiculos SET kilometraje = _kilometraje WHERE idvehiculo = _id;
+END $$
+
+Call spu_vehiculos_actualizar_quilometraje(1, 2000);
+select * from vehiculos;
+
+
+
 --  123456
 UPDATE usuarios
     SET claveacceso = "$2y$10$VuJusmMELIlf92ZaYRvpnut6bTft7PioE1mQWzdUEsXQ89xwrEQgC"

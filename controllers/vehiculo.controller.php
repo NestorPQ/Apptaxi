@@ -52,6 +52,15 @@ if (isset($_POST['operacion'])) {
       echo json_encode($vehiculo->agregarVehiculo($datosEnviar));
       break;
 
+    case 'actualizarKilometraje':
+      $datosEnviar = [
+        'idvehiculo'=> $_POST['idvehiculo'],
+        'kilometraje'=> $_POST['kilometraje']
+      ];
+
+      echo json_encode($vehiculo->actualizarKilometraje($datosEnviar));
+      break;
+
     default:
       break;
   }
